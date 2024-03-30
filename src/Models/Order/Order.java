@@ -101,4 +101,8 @@ public class Order {
         Double estimatedTime = distance / this.driver.getAverageSpeed();
         return estimatedTime;
     }
+
+    public void showOrderDetails() {
+        System.out.printf("Order #%d\n - %f", this.id, this.price);
+    }
 }
