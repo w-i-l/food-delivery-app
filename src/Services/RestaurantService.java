@@ -1,52 +1,51 @@
 package Services;
 import Models.Restaurant;
 
-import java.util.Dictionary;
-import java.util.Hashtable;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 
 public class RestaurantService {
-   private Dictionary<Integer, Restaurant> restaurants;
-
+    private Set<Restaurant> restaurants;
     public RestaurantService(List<Restaurant> restaurants) {
-        this.restaurants = new Hashtable<Integer, Restaurant>();
+        this.restaurants = new HashSet<Restaurant>();
         for (Restaurant restaurant : restaurants) {
-            this.restaurants.put(restaurant.getId(), restaurant);
+            this.restaurants.add(restaurant);
         }
     }
 
     public RestaurantService() {
-        this.restaurants = new Hashtable<Integer, Restaurant>();
+        this.restaurants = new HashSet<Restaurant>();
     }
 
     public void addRestaurant(Restaurant restaurant) {
-        this.restaurants.put(restaurant.getId(), restaurant);
+        this.restaurants.add(restaurant);
     }
 
-    public void removeRestaurant(Integer id) {
-        this.restaurants.remove(id);
+    public void removeRestaurant(Restaurant restaurant) {
+        this.restaurants.remove(restaurant);
     }
 
     public Restaurant getRestaurantById(Integer id) {
-        return this.restaurants.get(id);
+        for (Restaurant restaurant : this.restaurants) {
+            if (restaurant.getId().equals(id)) {
+                return restaurant;
+            }
+        }
+        return null;
     }
 
-    public Dictionary<Integer, Restaurant> getRestaurants() {
+    public Set<Restaurant> getRestaurants() {
         return this.restaurants;
     }
 
     public void listAllRestaurants() {
-        Iterator<Restaurant> restaurantIterator = this.restaurants.elements().asIterator();
-        while (restaurantIterator.hasNext()) {
-            Restaurant restaurant = restaurantIterator.next();
+        for (Restaurant restaurant : this.restaurants) {
             restaurant.showRestaurantDetails();
         }
     }
 
     public void viewMenuFromRestaurant(Integer id) {
-        Restaurant restaurant = this.restaurants.get(id);
+        Restaurant restaurant = getRestaurantById(id);
         restaurant.showMenu();
     }
 }

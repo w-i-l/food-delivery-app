@@ -5,9 +5,9 @@ import java.util.List;
 public class ProductItem implements ProductInterface {
     static private Integer ID = 0;
 
-    private final Integer id;
-    private String name;
-    private Double price;
+    protected final Integer id;
+    protected String name;
+    protected Double price;
 
     public ProductItem(String name, Double price) {
         this.id = ++ID;

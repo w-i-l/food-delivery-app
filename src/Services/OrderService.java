@@ -2,46 +2,46 @@ package Services;
 
 import Models.Order.Order;
 
-import java.util.Dictionary;
-import java.util.Enumeration;
-import java.util.Hashtable;
-import java.util.List;
+import java.util.*;
 
 public class OrderService {
 
-    private Dictionary<Integer, Order> orders;
+    private Set<Order> orders;
 
     public OrderService(List<Order> orders) {
-        this.orders = new Hashtable<Integer, Order>();
+        this.orders = new HashSet<Order>();
         for (Order order : orders) {
-            this.orders.put(order.getCustomer().getId(), order);
+            this.orders.add(order);
         }
     }
 
     public OrderService() {
-        this.orders = new Hashtable<Integer, Order>();
+        this.orders = new HashSet<Order>();
     }
 
     public void addOrder(Order order) {
-        this.orders.put(order.getCustomer().getId(), order);
+        this.orders.add(order);
     }
 
-    public void removeOrder(Integer id) {
-        this.orders.remove(id);
+    public void removeOrder(Order order) {
+        this.orders.remove(order);
     }
 
     public Order getOrderById(Integer id) {
-        return this.orders.get(id);
+        for (Order order : this.orders) {
+            if (order.getId().equals(id)) {
+                return order;
+            }
+        }
+        return null;
     }
 
-    public Dictionary<Integer, Order> getOrders() {
+    public Set<Order> getOrders() {
         return this.orders;
     }
 
     public void listAllOrders() {
-        Enumeration<Order> orderEnumeration = this.orders.elements();
-        while (orderEnumeration.hasMoreElements()) {
-            Order order = orderEnumeration.nextElement();
+        for (Order order : this.orders) {
             order.showOrderDetails();
         }
     }

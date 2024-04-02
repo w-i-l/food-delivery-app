@@ -32,4 +32,9 @@ public class Customer {
     public void setAddress(Address address) {
         this.address = address;
     }
+
+    public void showCustomerDetails() {
+        System.out.print("Name: " + this.name);
+        System.out.println(" - Address: " + this.address.getName());
+    }
 }

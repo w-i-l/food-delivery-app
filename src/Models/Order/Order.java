@@ -103,6 +103,6 @@ public class Order {
     }
 
     public void showOrderDetails() {
-        System.out.printf("Order #%d\n - %f", this.id, this.price);
+        System.out.printf("Order #%d - %.2f\n", this.id, this.price);
     }
 }
