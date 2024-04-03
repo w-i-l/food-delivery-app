@@ -1,7 +1,7 @@
 package MockedData;
 
-import Models.Address;
 import Models.Driver.Driver;
+import Models.Driver.DriverFactory;
 import Models.Driver.DriverType;
 
 import java.util.ArrayList;
@@ -11,22 +11,22 @@ public class DriverGenerator {
     public static List<Driver> generateDrivers() {
         List<Driver> drivers = new ArrayList<Driver>();
         Driver aux;
-        aux = new Driver(
+        aux = DriverFactory.createDriver(
                 "John Doe",
-                DriverType.BIKE,
+                DriverType.CAR,
                 5
         );
         drivers.add(aux);
-        aux = new Driver(
+        aux = DriverFactory.createDriver(
                 "Jane Doe",
-                DriverType.CAR,
+                DriverType.PEDESTRIAN,
                 4
         );
         drivers.add(aux);
-        aux = new Driver(
-                "Alice",
-                DriverType.PEDESTRIAN,
-                3
+        aux = DriverFactory.createDriver(
+                "John Smith",
+                DriverType.CAR,
+                4
         );
         return drivers;
     }

@@ -1,6 +1,7 @@
 package MockedData;
-import Models.Address;
-import Models.Restaurant;
+import Models.Address.AddressFactory;
+import Models.Restaurant.Restaurant;
+import Models.Restaurant.RestaurantFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,21 +10,21 @@ public class RestaurantGenerator {
     public static List<Restaurant> generateRestaurants() {
         List<Restaurant> restaurants = new ArrayList<Restaurant>();
         Restaurant aux;
-        aux = new Restaurant(
+        aux = RestaurantFactory.createRestaurant(
                 "McDonald's",
-                new Address("Street 1, Number 32"),
+                AddressFactory.createAddress("Street 1, Number 10"),
                 ProductGenerator.generateProducts()
         );
         restaurants.add(aux);
-        aux = new Restaurant(
-                "Pizza Hut",
-                new Address("Street 2, Number 12"),
+        aux = RestaurantFactory.createRestaurant(
+                "Burger King",
+                AddressFactory.createAddress("Street 2, Number 15"),
                 ProductGenerator.generateProducts()
         );
         restaurants.add(aux);
-        aux = new Restaurant(
-                "Domino's",
-                new Address("Street 3, Number 22"),
+        aux = RestaurantFactory.createRestaurant(
+                "KFC",
+                AddressFactory.createAddress("Street 3, Number 20"),
                 ProductGenerator.generateProducts()
         );
         restaurants.add(aux);

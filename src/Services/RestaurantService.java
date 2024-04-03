@@ -1,5 +1,5 @@
 package Services;
-import Models.Restaurant;
+import Models.Restaurant.Restaurant;
 
 import java.util.*;
 

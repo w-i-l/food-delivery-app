@@ -1,15 +1,13 @@
-import MockedData.CustomerGenerator;
-import MockedData.DriverGenerator;
-import MockedData.RestaurantGenerator;
-import Models.Customer;
 import Models.Driver.Driver;
+import Models.Driver.DriverFactory;
 import Models.Order.Order;
-import Models.Product.ProductInterface;
-import Models.Restaurant;
-import Services.CustomerService;
-import Services.DriverService;
-import Services.OrderService;
-import Services.RestaurantService;
+import Models.Order.OrderFactory;
+import Models.Product.Menu;
+import Models.Product.ProductFactory;
+import Models.Product.ProductItem;
+import Models.Product.SpecialProduct;
+import Models.Restaurant.Restaurant;
+import Models.Restaurant.RestaurantFactory;
 
 import java.util.*;
 
@@ -36,13 +34,22 @@ public class Main {
 //        DriverService driverService = new DriverService(drivers);
 //        driverService.listAllDrivers();
 
-        List<Customer> customers = CustomerGenerator.generateCustomers();
-        CustomerService customerService = new CustomerService(customers);
-        for (Customer customer : customers) {
-            customerService.addCustomer(customer);
-        }
-        customerService.removeCustomer(customers.get(0));
-        customerService.listAllCustomers();
+//        List<Customer> customers = CustomerGenerator.generateCustomers();
+//        CustomerService customerService = new CustomerService(customers);
+//        for (Customer customer : customers) {
+//            customerService.addCustomer(customer);
+//        }
+//        customerService.removeCustomer(customers.get(0));
+//        customerService.listAllCustomers();
 
+        Scanner scanner = new Scanner(System.in);
+//        Driver driver = DriverFactory.createDriver(scanner);
+//        driver.showDriverDetails();
+//        SpecialProduct specialProduct = ProductFactory.createSpecialProduct(scanner);
+//        specialProduct.showProductDetails();
+//        Restaurant restaurant = RestaurantFactory.createRestaurant(scanner);
+//        restaurant.showRestaurantDetails();
+        Order order = OrderFactory.createOrder(scanner);
+        order.showOrderDetails();
     }
 }

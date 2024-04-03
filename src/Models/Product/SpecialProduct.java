@@ -5,8 +5,8 @@ import java.util.Date;
 public class SpecialProduct extends ProductItem {
     private Date availableUntil;
 
-    public SpecialProduct(String name, Double price, Date availableUntil) {
-        super(name, price);
+    public SpecialProduct(Integer id, String name, Double price, Date availableUntil) {
+        super(id, name, price);
         this.availableUntil = availableUntil;
     }
 

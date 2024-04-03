@@ -1,4 +1,4 @@
-package Models;
+package Models.Address;
 
 import java.util.Random;
 
@@ -8,12 +8,12 @@ public final class Address {
     private final Double latitude;
     private String name;
 
-    public Address(String name) {
+    public Address(String name, Double latitude, Double longitude) {
         this.name = name;
 
         Random random = new Random();
-        this.latitude = random.nextDouble() * 180 - 90;
-        this.longitude = random.nextDouble() * 360 - 180;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
     public Double getLongitude() {

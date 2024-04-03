@@ -1,6 +1,6 @@
 package Services;
 
-import Models.Customer;
+import Models.Customer.Customer;
 
 import java.util.HashSet;
 import java.util.List;

@@ -1,14 +1,14 @@
-package Models;
+package Models.Customer;
+
+import Models.Address.Address;
 
 public class Customer {
-    static private Integer ID = 0;
-
     private final Integer id;
     private String name;
     private Address address;
 
-    public Customer(String name, Address address) {
-        this.id = ++ID;
+    public Customer(Integer id, String name, Address address) {
+        this.id = id;
         this.name = name;
         this.address = address;
     }

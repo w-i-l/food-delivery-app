@@ -1,19 +1,18 @@
-package Models;
+package Models.Restaurant;
 
+import Models.Address.Address;
 import Models.Product.ProductInterface;
 
 import java.util.List;
 
 public final class Restaurant {
-    static private Integer ID = 0;
-
     private final Integer id;
     private String name;
     private Address address;
     private List<ProductInterface> products;
 
-    public Restaurant(String name, Address address, List<ProductInterface> products) {
-        this.id = ++ID;
+    public Restaurant(Integer id, String name, Address address, List<ProductInterface> products) {
+        this.id = id;
         this.name = name;
         this.address = address;
         this.products = products;

@@ -1,15 +1,15 @@
 package Models.Driver;
 
-public class Driver {
-    static private Integer ID = 0;
+import java.util.Scanner;
 
+public class Driver {
     private final Integer id;
     private String name;
     private DriverType type;
     private Integer rating;
 
-    public Driver(String name, DriverType type, Integer rating) {
-        this.id = ++ID;
+    public Driver(Integer id, String name, DriverType type, Integer rating) {
+        this.id = id;
         this.name = name;
         this.type = type;
         this.rating = rating;

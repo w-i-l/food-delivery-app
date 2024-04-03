@@ -3,8 +3,6 @@ package Models.Product;
 import java.util.List;
 
 public class Menu implements ProductInterface {
-    static private Integer ID = 0;
-
     private final Integer id;
     private String name;
     private Double originalPrice;
@@ -12,8 +10,8 @@ public class Menu implements ProductInterface {
     private String description;
     private List<ProductItem> items;
 
-    public Menu(String name, String description, List<ProductItem> items, Double discount) {
-        this.id = ++ID;
+    public Menu(Integer id, String name, String description, List<ProductItem> items, Double discount) {
+        this.id = id;
         this.name = name;
         this.description = description;
         this.items = items;

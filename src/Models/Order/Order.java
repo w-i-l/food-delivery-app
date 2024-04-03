@@ -1,19 +1,17 @@
 package Models.Order;
 
-import Models.Customer;
+import Models.Customer.Customer;
 import Models.Driver.Driver;
 import Models.Product.Menu;
 import Models.Product.ProductInterface;
 import Models.Product.ProductItem;
 import Models.Product.SpecialProduct;
-import Models.Restaurant;
+import Models.Restaurant.Restaurant;
 
 import java.util.Dictionary;
 import java.util.Enumeration;
 
 public class Order {
-    static private Integer ID = 0;
-
     private final Integer id;
     private Customer customer;
     private Restaurant restaurant;
@@ -22,8 +20,15 @@ public class Order {
     private OrderStatus status;
     private Dictionary<ProductInterface, Integer> products;
 
-    public Order(Customer customer, Restaurant restaurant, Driver driver, Double price, Dictionary<ProductInterface, Integer> products) {
-        this.id = ++ID;
+    public Order(
+            Integer id,
+            Customer customer,
+            Restaurant restaurant,
+            Driver driver,
+            Double price,
+            Dictionary<ProductInterface, Integer> products
+    ) {
+        this.id = id;
         this.customer = customer;
         this.restaurant = restaurant;
         this.driver = driver;
