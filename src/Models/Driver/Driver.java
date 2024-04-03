@@ -1,5 +1,7 @@
 package Models.Driver;
 
+import Models.Address.Address;
+
 import java.util.Scanner;
 
 public class Driver {
@@ -48,6 +50,12 @@ public class Driver {
     }
 
     public void showDriverDetails() {
-        System.out.printf("%d. \"%s\" - %s - %d\n", this.id, this.name, this.type.getName(), this.rating);
+        System.out.printf("%d. \"%s\" - %s - rating: %d/5\n", this.id, this.name, this.type.getName(), this.rating);
+    }
+
+    public Double getEstimatedDeliveryTime(Address from, Address to) {
+        Double distance = from.distanceTo(to);
+        Double estimatedTime = distance / this.getAverageSpeed();
+        return estimatedTime;
     }
 }

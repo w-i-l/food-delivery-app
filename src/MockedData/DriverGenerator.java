@@ -12,15 +12,15 @@ public class DriverGenerator {
         List<Driver> drivers = new ArrayList<Driver>();
         Driver aux;
         aux = DriverFactory.createDriver(
-                "John Doe",
+                "Michael Jordan",
                 DriverType.CAR,
                 5
         );
         drivers.add(aux);
         aux = DriverFactory.createDriver(
-                "Jane Doe",
+                "Lebron James",
                 DriverType.PEDESTRIAN,
-                4
+                3
         );
         drivers.add(aux);
         aux = DriverFactory.createDriver(
@@ -28,6 +28,7 @@ public class DriverGenerator {
                 DriverType.CAR,
                 4
         );
+        drivers.add(aux);
         return drivers;
     }
 }

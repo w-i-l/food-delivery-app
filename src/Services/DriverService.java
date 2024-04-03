@@ -1,5 +1,6 @@
 package Services;
 
+import Models.Address.Address;
 import Models.Driver.Driver;
 import Models.Driver.DriverType;
 
@@ -36,6 +37,21 @@ public class DriverService {
     public void listAllDrivers() {
         for (Driver driver : this.drivers) {
             driver.showDriverDetails();
+        }
+    }
+
+    public Driver getDriverById(Integer id) {
+        for (Driver driver : this.drivers) {
+            if (driver.getId().equals(id)) {
+                return driver;
+            }
+        }
+        return null;
+    }
+
+    public void listAllDriversWithETA(Address from, Address to) {
+        for (Driver driver : this.drivers) {
+            System.out.printf("%d. \"%s\" - %s - rating: %d/5 - ETA: %.2f minutes\n", driver.getId(), driver.getName(), driver.getType().getName(), driver.getRating(), driver.getEstimatedDeliveryTime(from, to));
         }
     }
 }

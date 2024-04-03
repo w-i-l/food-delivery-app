@@ -1,4 +1,5 @@
 package Services;
+import Models.Product.ProductInterface;
 import Models.Restaurant.Restaurant;
 
 import java.util.*;
@@ -47,5 +48,16 @@ public class RestaurantService {
     public void viewMenuFromRestaurant(Integer id) {
         Restaurant restaurant = getRestaurantById(id);
         restaurant.showMenu();
+    }
+
+    public ProductInterface getProductFromRestaurant(Integer restaurantId, Integer productId) {
+        Restaurant restaurant = getRestaurantById(restaurantId);
+        List<ProductInterface> products = restaurant.getProducts();
+        for (ProductInterface product : products) {
+            if (product.getId() == productId) {
+                return product;
+            }
+        }
+        return null;
     }
 }

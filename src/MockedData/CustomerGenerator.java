@@ -17,7 +17,7 @@ public class CustomerGenerator {
         );
         customers.add(aux);
         aux = CustomerFactory.createCustomer(
-                "Jane Doe",
+                "Janna Irish",
                 AddressFactory.createAddress("5678")
         );
         customers.add(aux);
@@ -25,6 +25,7 @@ public class CustomerGenerator {
                 "John Smith",
                 AddressFactory.createAddress("91011")
         );
+        customers.add(aux);
         return customers;
     }
 }

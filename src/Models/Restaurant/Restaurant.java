@@ -53,10 +53,13 @@ public final class Restaurant {
 
     public void showMenu() {
         System.out.println("Menu of " + this.name);
-        for (int i = 0; i < this.products.size(); i++) {
-            ProductInterface product = this.products.get(i);
-            System.out.printf("%d. ", i + 1);
-            product.showProductDetails();
+        for (ProductInterface product : this.products) {
+            System.out.printf("%d. %s - %.2f\n", product.getId(), product.getName(), product.getPrice());
         }
+    }
+
+    @Override
+    public int hashCode() {
+        return this.id;
     }
 }

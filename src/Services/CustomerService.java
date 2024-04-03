@@ -32,6 +32,15 @@ public class CustomerService {
         return this.customers;
     }
 
+    public Customer getCustomerById(Integer id) {
+        for (Customer customer : this.customers) {
+            if (customer.getId().equals(id)) {
+                return customer;
+            }
+        }
+        return null;
+    }
+
     public void listAllCustomers() {
         for (Customer customer : this.customers) {
             customer.showCustomerDetails();

@@ -34,7 +34,6 @@ public class Customer {
     }
 
     public void showCustomerDetails() {
-        System.out.print("Name: " + this.name);
-        System.out.println(" - Address: " + this.address.getName());
+        System.out.printf("%d. %s\n", this.id, this.name);
     }
 }
