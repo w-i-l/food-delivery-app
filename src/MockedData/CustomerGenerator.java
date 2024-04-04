@@ -12,18 +12,18 @@ public class CustomerGenerator {
         List<Customer> customers = new ArrayList<Customer>();
         Customer aux;
         aux = CustomerFactory.createCustomer(
-                "John Doe",
-                AddressFactory.createAddress("1234")
+                "Michael Scott",
+                AddressFactory.createAddress("Floral Street, no. 12, CANADA")
         );
         customers.add(aux);
         aux = CustomerFactory.createCustomer(
                 "Janna Irish",
-                AddressFactory.createAddress("5678")
+                AddressFactory.createAddress("Baker Street, no. 221B, UK")
         );
         customers.add(aux);
         aux = CustomerFactory.createCustomer(
                 "John Smith",
-                AddressFactory.createAddress("91011")
+                AddressFactory.createAddress("Wall Street, no. 1, USA")
         );
         customers.add(aux);
         return customers;
