@@ -1,8 +1,5 @@
-package Services;
+package Services.Menu;
 
-import MockedData.CustomerGenerator;
-import MockedData.DriverGenerator;
-import MockedData.RestaurantGenerator;
 import Models.Customer.Customer;
 import Models.Driver.Driver;
 import Models.Order.Order;
@@ -10,10 +7,16 @@ import Models.Order.OrderFactory;
 import Models.Order.OrderStatus;
 import Models.Product.ProductInterface;
 import Models.Restaurant.Restaurant;
+import Services.CustomerService;
+import Services.DriverService;
+import Services.OrderService;
+import Services.RestaurantService;
 
 import java.util.*;
+public class UserMenuService {
 
-public class MenuService {
+    static UserMenuService instance = null;
+
     private Dictionary<Integer, String> menuItems = new Hashtable<Integer, String>();
     private RestaurantService restaurantService;
     private OrderService orderService;
@@ -21,12 +24,37 @@ public class MenuService {
     private DriverService driverService;
     private Scanner scanner;
 
-    public MenuService() {
-        this.restaurantService = new RestaurantService(RestaurantGenerator.generateRestaurants());
-        this.orderService = new OrderService();
-        this.customerService = new CustomerService(CustomerGenerator.generateCustomers());
-        this.driverService = new DriverService(DriverGenerator.generateDrivers());
-        this.scanner = new Scanner(System.in);
+    static public UserMenuService init(
+            RestaurantService restaurantService,
+            OrderService orderService,
+            CustomerService customerService,
+            DriverService driverService,
+            Scanner scanner
+    ) {
+        if (instance == null) {
+            instance = new UserMenuService(
+                    restaurantService,
+                    orderService,
+                    customerService,
+                    driverService,
+                    scanner
+            );
+        }
+        return instance;
+    }
+
+    private UserMenuService(
+            RestaurantService restaurantService,
+            OrderService orderService,
+            CustomerService customerService,
+            DriverService driverService,
+            Scanner scanner
+    ) {
+        this.restaurantService = restaurantService;
+        this.orderService = orderService;
+        this.customerService = customerService;
+        this.driverService = driverService;
+        this.scanner = scanner;
     }
 
     public void initMenuItems() {
@@ -41,7 +69,7 @@ public class MenuService {
     }
 
     private void showMenuOptions() {
-        System.out.println("Menu:");
+        System.out.println("User menu:");
 
         ArrayList<Integer> keys = new ArrayList<Integer>();
         Iterator<Integer> keyIterator = menuItems.keys().asIterator();
@@ -55,16 +83,12 @@ public class MenuService {
         }
     }
 
-    public void mainLoop(Scanner scanner) {
+    public void mainLoop() {
         while (main(scanner));
     }
 
     private boolean main(Scanner scanner) {
-        try {
-            Runtime.getRuntime().exec("cls");
-        } catch (Exception e) {
-            System.out.println("\n");
-        }
+        System.out.printf("\n\n");
         showMenuOptions();
 
         System.out.print("Enter option: ");
@@ -105,7 +129,7 @@ public class MenuService {
         restaurantService.listAllRestaurants();
     }
 
-    public void viewMenuFromRestaurant() {
+    private void viewMenuFromRestaurant() {
         listAllRestaurants();
         System.out.println("Enter restaurant id: ");
         Integer restaurantId = scanner.nextInt();
@@ -116,12 +140,12 @@ public class MenuService {
         restaurantService.viewMenuFromRestaurant(restaurantId);
     }
 
-    public void createOrder() {
+    private void createOrder() {
 
         Double price = 0.0;
         Dictionary<ProductInterface, Integer> products = new Hashtable<ProductInterface, Integer>();
 
-        listAllOrders();
+        listAllRestaurants();
         System.out.println("Choose a restaurant: ");
         Integer restaurantId = scanner.nextInt();
 
@@ -160,11 +184,11 @@ public class MenuService {
         orderService.addOrder(order);
     }
 
-    public void listAllOrders() {
+    private void listAllOrders() {
         orderService.listAllOrders();
     }
 
-    public void seeOrderDetails() {
+    private void seeOrderDetails() {
         listAllOrders();
         if (orderService.getOrders().size() == 0) {
             return;
@@ -174,7 +198,7 @@ public class MenuService {
         orderService.getOrderById(orderId).showOrderDetails();
     }
 
-    public void placeOrder() {
+    private void placeOrder() {
         listAllOrders();
         if(orderService.getOrders().size() == 0) {
             return;
@@ -185,7 +209,7 @@ public class MenuService {
         order.setStatus(OrderStatus.ACCEPTED);
     }
 
-    public void seeOrderStatus() {
+    private void seeOrderStatus() {
         listAllOrders();
         if(orderService.getOrders().size() == 0) {
             return;

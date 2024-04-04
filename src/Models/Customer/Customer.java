@@ -36,4 +36,9 @@ public class Customer {
     public void showCustomerDetails() {
         System.out.printf("%d. %s\n", this.id, this.name);
     }
+
+    public void updateCustomer(Customer customer) {
+        this.name = customer.getName();
+        this.address = customer.getAddress();
+    }
 }

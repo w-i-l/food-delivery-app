@@ -58,6 +58,12 @@ public final class Restaurant {
         }
     }
 
+    public void updateRestaurant(Restaurant restaurant) {
+        this.name = restaurant.getName();
+        this.address = restaurant.getAddress();
+        this.products = restaurant.getProducts();
+    }
+
     @Override
     public int hashCode() {
         return this.id;

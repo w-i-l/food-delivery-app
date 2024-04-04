@@ -15,7 +15,7 @@ public class DriverFactory {
         Integer rating;
 
         System.out.print("Enter driver name: ");
-        name = scanner.nextLine();
+        name = scanner.next();
 
         System.out.print("Enter driver type (1 - CAR, 2 - PEDESTRIAN, 3 - BIKE): ");
         switch (scanner.nextInt()) {

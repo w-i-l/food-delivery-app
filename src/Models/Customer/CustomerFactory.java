@@ -18,7 +18,7 @@ public class CustomerFactory {
         Address address;
 
         System.out.print("Enter customer name: ");
-        name = scanner.nextLine();
+        name = scanner.next();
 
         address = AddressFactory.createAddress(scanner);
 

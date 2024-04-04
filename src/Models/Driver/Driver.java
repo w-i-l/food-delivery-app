@@ -58,4 +58,10 @@ public class Driver {
         Double estimatedTime = distance / this.getAverageSpeed();
         return estimatedTime;
     }
+
+    public void updateDriver(Driver driver) {
+        this.name = driver.getName();
+        this.type = driver.getType();
+        this.rating = driver.getRating();
+    }
 }
