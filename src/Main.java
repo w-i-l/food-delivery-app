@@ -1,8 +1,8 @@
-import MockedData.CustomerGenerator;
-import MockedData.DriverGenerator;
-import MockedData.RestaurantGenerator;
-import Services.*;
-import Services.Menu.MenuService;
+import mockedData.CustomerGenerator;
+import mockedData.DriverGenerator;
+import mockedData.RestaurantGenerator;
+import services.*;
+import services.menu.MenuService;
 import java.util.*;
 
 public class Main {
