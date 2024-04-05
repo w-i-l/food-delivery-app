@@ -108,6 +108,8 @@
     <li><code>getters and setter</code> - for attributes</li>
     <li><code>Double distanceTo(Address address)</code> - returns the distance between two addresses</li>
 </ul>
+<hr/>
+<br/>
 
 <h3>Customer</h3>
 <p>Attributes</p>
@@ -123,6 +125,8 @@
     <li><code>void showCustomerDetails()</code> - prints the customer details</li>
     <li><code>void updateCustomer(Customer customer)</code> - updates the customer details, keeping the <code>id</code></li>
 </ul>
+<hr/>
+<br/>
 
 <h3>Driver Type</h3>
 <p>Enum values</p>
@@ -137,6 +141,8 @@
     <li><code>Double getAverageSpeed()</code> - returns the average speed for each type</li>
     <li><code>String getName()</code> - returns the name of the type</li>
 </ul>
+<hr/>
+<br/>
 
 <h3>Driver</h3>
 <p>Attributes</p>
@@ -154,6 +160,8 @@
     <li><code>Double getEstimatedDeliveryTime(Address from, Address to)</code> - returns the estimated delivery time between two addresses</li>
     <li><code>void updateDriver(Driver driver)</code> - updates the driver details, keeping the <code>id</code></li>
 </ul>
+<hr/>
+<br/>
 
 <h3>Product Interface</h3>
 <p>Methods</p>
@@ -165,6 +173,8 @@
     <li><code>void setPrice(Double price)</code></li>
     <li><code>void showProductDetails()</code></li>
 </ul>
+<hr/>
+<br/>
 
 <h3>Product Item: ProductInterface</h3>
 <p>Attributes</p>
@@ -179,6 +189,8 @@
     <li><code>getters and setter</code> - for attributes</li>
     <li><code>void showProductDetails()</code> - prints the product details</li>
 </ul>
+<hr/>
+<br/>
 
 <h3>Special Product: ProductInterface</h3>
 <p>Attributes</p>
@@ -190,6 +202,8 @@
 <ul>
     <li><code>getters and setter</code> - for attributes</li>
 </ul>
+<hr/>
+<br/>
 
 <h3>Menu: ProductInterface</h3>
 <p>Attributes</p>
@@ -207,6 +221,8 @@
     <li><code>getters and setter</code> - for attributes</li>
     <li><code>void showMenuDetails()</code> - prints the menu details</li>
 </ul>
+<hr/>
+<br/>
 
 <h3>Restaurant</h3>
 <p>Attributes</p>
