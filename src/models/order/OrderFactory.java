@@ -13,10 +13,10 @@ import java.util.Hashtable;
 import java.util.Scanner;
 
 public class OrderFactory {
-    static final Integer orderId = 0;
+    static private Integer orderId = 0;
 
     public static Order createOrder(Customer customer, Restaurant restaurant, Driver driver, Double price, Dictionary<ProductInterface, Integer> products) {
-        return new Order(orderId, customer, restaurant, driver, price, products);
+        return new Order(orderId++, customer, restaurant, driver, price, products);
     }
 
     public static Order createOrder(Scanner scanner) {
@@ -70,6 +70,6 @@ public class OrderFactory {
             }
         }
 
-        return new Order(orderId, customer, restaurant, driver, price, products);
+        return new Order(orderId++, customer, restaurant, driver, price, products);
     }
 }

@@ -6,7 +6,12 @@ public class DriverFactory {
     static private Integer ID = 0;
 
     public static Driver createDriver(String name, DriverType type, Integer rating) {
-        return new Driver(++ID, name, type, rating);
+        return new Driver(ID++, name, type, rating);
+    }
+
+    public static Driver createDriver(Integer id, String name, DriverType type, Integer rating) {
+        ID = Math.max(ID, id);
+        return new Driver(id, name, type, rating);
     }
 
     public static Driver createDriver(Scanner scanner) {
@@ -39,4 +44,10 @@ public class DriverFactory {
 
         return new Driver(++ID, name, type, rating);
     }
+
+    public static void setID(Integer id) {
+        ID = id;
+    }
+
+
 }

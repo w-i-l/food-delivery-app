@@ -22,6 +22,6 @@ public class CustomerFactory {
 
         address = AddressFactory.createAddress(scanner);
 
-        return new Customer(++ID, name, address);
+        return new Customer(ID++, name, address);
     }
 }

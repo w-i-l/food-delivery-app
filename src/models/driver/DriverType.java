@@ -20,4 +20,13 @@ public enum DriverType {
             case PEDESTRIAN -> "Pedestrian";
         };
     }
+
+    public static DriverType fromString(String type) {
+        return switch (type) {
+            case "BIKE" -> BIKE;
+            case "CAR" -> CAR;
+            case "PEDESTRIAN" -> PEDESTRIAN;
+            default -> null;
+        };
+    }
 }

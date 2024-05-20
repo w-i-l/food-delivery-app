@@ -11,15 +11,15 @@ public class ProductFactory {
     static private Integer ID = 0;
 
     public static ProductItem createProductItem(String name, Double price) {
-        return new ProductItem(++ID, name, price);
+        return new ProductItem(ID++, name, price);
     }
 
     public static SpecialProduct createSpecialProduct(String name, Double price, Date availableUntil) {
-        return new SpecialProduct(++ID, name, price, availableUntil);
+        return new SpecialProduct(ID++, name, price, availableUntil);
     }
 
     public static Menu createMenu(String name, String descriptiom, List<ProductItem> products, Double discount) {
-        return new Menu(++ID, name, descriptiom, products, discount);
+        return new Menu(ID++, name, descriptiom, products, discount);
     }
 
     public static ProductItem createProductItem(Scanner scanner) {
@@ -32,7 +32,7 @@ public class ProductFactory {
         System.out.print("Enter product price: ");
         price = scanner.nextDouble();
 
-        return new ProductItem(++ID, name, price);
+        return new ProductItem(ID++, name, price);
     }
 
     public static SpecialProduct createSpecialProduct(Scanner scanner) {
@@ -52,7 +52,7 @@ public class ProductFactory {
         LocalDate date = LocalDate.parse(dateString, formatter);
         availableUntil = Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant());
 
-        return new SpecialProduct(++ID, name, price, availableUntil);
+        return new SpecialProduct(ID++, name, price, availableUntil);
     }
 
     public static Menu createMenu(Scanner scanner) {
@@ -77,6 +77,6 @@ public class ProductFactory {
             products.add(ProductFactory.createProductItem(scanner));
         }
 
-        return new Menu(++ID, name, description, products, discount);
+        return new Menu(ID++, name, description, products, discount);
     }
 }

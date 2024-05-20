@@ -1,16 +1,16 @@
-import mockedData.CustomerGenerator;
-import mockedData.DriverGenerator;
-import mockedData.RestaurantGenerator;
+import database.Connector;
 import services.*;
 import services.menu.MenuService;
+import tests.DriverDatabaseTest;
+
 import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        RestaurantService restaurantService = new RestaurantService(RestaurantGenerator.generateRestaurants());
-        DriverService driverService = new DriverService(DriverGenerator.generateDrivers());
-        CustomerService customerService = new CustomerService(CustomerGenerator.generateCustomers());
+        RestaurantService restaurantService = new RestaurantService();
+        DriverService driverService = new DriverService();
+        CustomerService customerService = new CustomerService();
         OrderService orderService = new OrderService();
 
 
@@ -22,6 +22,9 @@ public class Main {
                 scanner
         );
         menuService.initMenuItems();
-        menuService.mainLoop();
+//        menuService.mainLoop();
+        Connector.init();
+        DriverDatabaseTest.test();
+        Connector.closeConnection(false);
     }
 }

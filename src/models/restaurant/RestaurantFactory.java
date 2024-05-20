@@ -14,7 +14,7 @@ public class RestaurantFactory {
     static private Integer ID = 0;
 
     public static Restaurant createRestaurant(String name, Address address, List<ProductInterface> products) {
-        return new Restaurant(++ID, name, address, products);
+        return new Restaurant(ID++, name, address, products);
     }
 
     public static Restaurant createRestaurant(Scanner scanner) {
@@ -50,6 +50,6 @@ public class RestaurantFactory {
             }
         }
 
-        return new Restaurant(++ID, name, address, products);
+        return new Restaurant(ID++, name, address, products);
     }
 }
