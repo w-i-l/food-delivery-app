@@ -1,6 +1,7 @@
 import database.Connector;
 import services.*;
 import services.menu.MenuService;
+import tests.CustomerDatabaseTest;
 import tests.DriverDatabaseTest;
 
 import java.util.*;
@@ -24,7 +25,8 @@ public class Main {
         menuService.initMenuItems();
 //        menuService.mainLoop();
         Connector.init();
-        DriverDatabaseTest.test();
+//        DriverDatabaseTest.test();
+        CustomerDatabaseTest.test();
         Connector.closeConnection(false);
     }
 }

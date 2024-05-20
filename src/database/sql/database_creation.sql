@@ -1,6 +1,6 @@
 -- Address Table
 CREATE TABLE IF NOT EXISTS Address (
-                                       id INT PRIMARY KEY,
+                                       id INT AUTO_INCREMENT PRIMARY KEY,
                                        name VARCHAR(255) NOT NULL,
     latitude DOUBLE NOT NULL,
     longitude DOUBLE NOT NULL

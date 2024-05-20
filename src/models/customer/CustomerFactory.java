@@ -13,6 +13,11 @@ public class CustomerFactory {
         return new Customer(++ID, name, address);
     }
 
+    public static Customer createCustomer(Integer id, String name, Address address) {
+        ID = Math.max(ID, id + 1);
+        return new Customer(id, name, address);
+    }
+
     public static Customer createCustomer(Scanner scanner) {
         String name;
         Address address;

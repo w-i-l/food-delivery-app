@@ -4,16 +4,22 @@ import java.util.Random;
 
 public final class Address {
 
+    private final Integer id;
     private final Double longitude;
     private final Double latitude;
     private String name;
 
-    public Address(String name, Double latitude, Double longitude) {
+    public Address(Integer id, String name, Double latitude, Double longitude) {
+        this.id = id;
         this.name = name;
 
         Random random = new Random();
         this.latitude = latitude;
         this.longitude = longitude;
+    }
+
+    public Integer getId() {
+        return this.id;
     }
 
     public Double getLongitude() {

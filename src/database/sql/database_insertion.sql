@@ -1,12 +1,12 @@
 -- Insert into Address Table
-INSERT INTO Address (id, name, latitude, longitude) VALUES
-                                                        (0, '123 Main St', 40.712776, -74.005974),
-                                                        (1, '456 Elm St', 34.052235, -118.243683),
-                                                        (2, '789 Oak St', 41.878113, -87.629799);
+INSERT INTO Address (name, latitude, longitude) VALUES
+                                                        ('123 Main St', 40.712776, -74.005974),
+                                                        ('456 Elm St', 34.052235, -118.243683),
+                                                        ('789 Oak St', 41.878113, -87.629799);
 
 -- Insert into Customer Table
 INSERT INTO Customer (id, name, address_id) VALUES
-                                                (0, 'John Doe', 0),
+                                                (0, 'John Doe', 3),
                                                 (1, 'Jane Smith', 1),
                                                 (2, 'Alice Johnson', 2);
 
@@ -42,7 +42,7 @@ INSERT INTO MenuItems (menu_id, product_item_id) VALUES
 
 -- Insert into Restaurant Table
 INSERT INTO Restaurant (id, name, address_id) VALUES
-                                                  (0, 'Restaurant A', 0),
+                                                  (0, 'Restaurant A', 3),
                                                   (1, 'Restaurant B', 1),
                                                   (2, 'Restaurant C', 2);
 

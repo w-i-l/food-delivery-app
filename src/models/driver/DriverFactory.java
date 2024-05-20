@@ -10,7 +10,7 @@ public class DriverFactory {
     }
 
     public static Driver createDriver(Integer id, String name, DriverType type, Integer rating) {
-        ID = Math.max(ID, id);
+        ID = Math.max(ID, id + 1);
         return new Driver(id, name, type, rating);
     }
 
