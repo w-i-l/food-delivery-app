@@ -36,6 +36,18 @@ public class Menu implements ProductInterface {
         return this.discountedPrice;
     }
 
+    public String getDescription() {
+        return this.description;
+    }
+
+    public List<ProductItem> getItems() {
+        return this.items;
+    }
+
+    public Double getDiscount() {
+        return this.originalPrice / this.discountedPrice * 100.0;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -44,7 +56,15 @@ public class Menu implements ProductInterface {
         this.discountedPrice = price;
     }
 
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setItems(List<ProductItem> items) {
+        this.items = items;
+    }
+
     public void showProductDetails() {
-        System.out.printf("\"%s\" - %.2f\n", this.name, this.discountedPrice);
+        System.out.printf("\"%s\" - %.2f (%d items)\n", this.name, this.discountedPrice, this.items.size());
     }
 }

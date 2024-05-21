@@ -3,6 +3,7 @@ import services.*;
 import services.menu.MenuService;
 import tests.CustomerDatabaseTest;
 import tests.DriverDatabaseTest;
+import tests.ProductDatabaseTest;
 
 import java.util.*;
 
@@ -26,7 +27,8 @@ public class Main {
 //        menuService.mainLoop();
         Connector.init();
 //        DriverDatabaseTest.test();
-        CustomerDatabaseTest.test();
+//        CustomerDatabaseTest.test();
+        ProductDatabaseTest.test();
         Connector.closeConnection(false);
     }
 }

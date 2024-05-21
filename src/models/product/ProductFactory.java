@@ -14,12 +14,27 @@ public class ProductFactory {
         return new ProductItem(ID++, name, price);
     }
 
+    public static ProductItem createProductItem(Integer id, String name, Double price) {
+        ID = Math.max(ID, id + 1);
+        return new ProductItem(id, name, price);
+    }
+
     public static SpecialProduct createSpecialProduct(String name, Double price, Date availableUntil) {
         return new SpecialProduct(ID++, name, price, availableUntil);
     }
 
+    public static SpecialProduct createSpecialProduct(Integer id, String name, Double price, Date availableUntil) {
+        ID = Math.max(ID, id + 1);
+        return new SpecialProduct(id, name, price, availableUntil);
+    }
+
     public static Menu createMenu(String name, String descriptiom, List<ProductItem> products, Double discount) {
         return new Menu(ID++, name, descriptiom, products, discount);
+    }
+
+    public static Menu createMenu(Integer id, String name, String descriptiom, List<ProductItem> products, Double discount) {
+        ID = Math.max(ID, id + 1);
+        return new Menu(id, name, descriptiom, products, discount);
     }
 
     public static ProductItem createProductItem(Scanner scanner) {

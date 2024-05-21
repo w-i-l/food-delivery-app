@@ -1,8 +1,8 @@
 -- Insert into Address Table
 INSERT INTO Address (name, latitude, longitude) VALUES
-                                                        ('123 Main St', 40.712776, -74.005974),
-                                                        ('456 Elm St', 34.052235, -118.243683),
-                                                        ('789 Oak St', 41.878113, -87.629799);
+                                                    ('123 Main St', 40.712776, -74.005974),
+                                                    ('456 Elm St', 34.052235, -118.243683),
+                                                    ('789 Oak St', 41.878113, -87.629799);
 
 -- Insert into Customer Table
 INSERT INTO Customer (id, name, address_id) VALUES
@@ -17,22 +17,22 @@ INSERT INTO Driver (id, name, type, rating) VALUES
                                                 (2, 'Driver C', 'PEDESTRIAN', 3);
 
 -- Insert into Product Table (ProductItem)
-INSERT INTO Product (id, name, price, description, type) VALUES
-                                                             (0, 'Burger', 5.99, NULL, 'ITEM'),
-                                                             (1, 'Pizza', 8.99, NULL, 'ITEM'),
-                                                             (2, 'Salad', 4.99, NULL, 'ITEM');
+INSERT INTO Product (id, name, price, type) VALUES
+                            (0, 'Burger', 5.99, 'ITEM'),
+                            (1, 'Pizza', 8.99, 'ITEM'),
+                            (2, 'Salad', 4.99, 'ITEM');
 
 -- Insert into Product Table (SpecialProduct)
-INSERT INTO Product (id, name, price, description, type) VALUES
-                                                             (3, 'Deluxe Burger', 7.99, 'A burger with extra toppings', 'SPECIAL'),
-                                                             (4, 'Supreme Pizza', 10.99, 'Pizza with all the toppings', 'SPECIAL'),
-                                                             (5, 'Caesar Salad', 6.99, 'Salad with Caesar dressing', 'SPECIAL');
+INSERT INTO Product (id, name, price, available_until, type) VALUES
+                                                                                        (3, 'Deluxe Burger', 7.99, '2023-12-31', 'SPECIAL'),
+                                                                                        (4, 'Supreme Pizza', 10.99, '2023-12-31', 'SPECIAL'),
+                                                                                        (5, 'Caesar Salad', 6.99, '2023-12-31', 'SPECIAL');
 
 -- Insert into Product Table (Menu)
-INSERT INTO Product (id, name, price, description, type) VALUES
-                                                             (6, 'Lunch Menu', 15.99, 'Includes burger, fries, and drink', 'MENU'),
-                                                             (7, 'Dinner Menu', 20.99, 'Includes steak, potatoes, and drink', 'MENU'),
-                                                             (8, 'Breakfast Menu', 10.99, 'Includes eggs, bacon, and coffee', 'MENU');
+INSERT INTO Product (id, name, price, description, discount, type) VALUES
+                                                                                        (6, 'Lunch Menu', 15.99, 'Includes burger, fries, and drink', 2.00, 'MENU'),
+                                                                                        (7, 'Dinner Menu', 20.99, 'Includes steak, potatoes, and drink', 2.00, 'MENU'),
+                                                                                        (8, 'Breakfast Menu', 10.99, 'Includes eggs, bacon, and coffee', 2.00, 'MENU');
 
 -- Insert into MenuItems Table
 INSERT INTO MenuItems (menu_id, product_item_id) VALUES
@@ -54,8 +54,14 @@ INSERT INTO RestaurantProducts (restaurant_id, product_id) VALUES
 
 -- Insert into Order Table
 INSERT INTO _Order (id, customer_id, restaurant_id, driver_id, status) VALUES
-                                                                            (0, 0, 0, 0, 'PENDING'),
-                                                                            (1, 1, 1, 1, 'ACCEPTED'),
-                                                                            (2, 2, 2, 2, 'DELIVERED');
+                                                                           (0, 0, 0, 0, 'PENDING'),
+                                                                           (1, 1, 1, 1, 'ACCEPTED'),
+                                                                           (2, 2, 2, 2, 'DELIVERED');
 
-
+INSERT INTO OrderProducts (order_id, product_id, quantity) VALUES
+                                                               (0, 0, 2), -- Order 0 contains 2 Burgers
+                                                               (0, 3, 1), -- Order 0 contains 1 Deluxe Burger
+                                                               (1, 1, 1), -- Order 1 contains 1 Pizza
+                                                               (1, 4, 2), -- Order 1 contains 2 Supreme Pizzas
+                                                               (2, 2, 3), -- Order 2 contains 3 Salads
+                                                               (2, 5, 1); -- Order 2 contains 1 Caesar Salad

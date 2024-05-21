@@ -36,6 +36,8 @@ CREATE TABLE IF NOT EXISTS Product (
                                        name VARCHAR(255) NOT NULL,
     price DOUBLE NOT NULL,
     description TEXT,
+    available_until DATE,
+    discount DOUBLE,
     type ENUM('ITEM', 'SPECIAL', 'MENU') NOT NULL
     );
 
@@ -67,4 +69,13 @@ CREATE TABLE IF NOT EXISTS _Order (
     FOREIGN KEY (customer_id) REFERENCES Customer(id) ON DELETE CASCADE,
     FOREIGN KEY (restaurant_id) REFERENCES Restaurant(id) ON DELETE CASCADE,
     FOREIGN KEY (driver_id) REFERENCES Driver(id) ON DELETE CASCADE
+    );
+
+CREATE TABLE IF NOT EXISTS OrderProducts (
+                                            order_id INT,
+                                            product_id INT,
+                                            quantity INT,
+                                            PRIMARY KEY (order_id, product_id),
+    FOREIGN KEY (order_id) REFERENCES _Order(id) ON DELETE CASCADE,
+    FOREIGN KEY (product_id) REFERENCES Product(id) ON DELETE CASCADE
     );
