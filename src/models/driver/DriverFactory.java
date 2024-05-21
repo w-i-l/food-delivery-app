@@ -1,5 +1,7 @@
 package models.driver;
 
+import util.ScannerHelper;
+
 import java.util.Scanner;
 
 public class DriverFactory {
@@ -19,11 +21,10 @@ public class DriverFactory {
         DriverType type;
         Integer rating;
 
-        System.out.print("Enter driver name: ");
-        name = scanner.next();
+        name = ScannerHelper.nextLine("Enter driver name: ");
 
-        System.out.print("Enter driver type (1 - CAR, 2 - PEDESTRIAN, 3 - BIKE): ");
-        switch (scanner.nextInt()) {
+        Integer option = ScannerHelper.nextInt("Enter driver type (1 - CAR, 2 - PEDESTRIAN, 3 - BIKE): ");
+        switch (option) {
             case 1:
                 type = DriverType.CAR;
                 break;
@@ -38,8 +39,7 @@ public class DriverFactory {
                 break;
         }
 
-        System.out.print("Enter driver rating: ");
-        rating = scanner.nextInt();
+        rating = ScannerHelper.nextInt("Enter driver rating: ");
         rating = rating < 0 ? 0 : rating > 5 ? 5 : rating;
 
         return new Driver(++ID, name, type, rating);

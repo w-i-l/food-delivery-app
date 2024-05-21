@@ -4,6 +4,7 @@ import models.address.Address;
 import models.address.AddressFactory;
 import models.product.ProductInterface;
 import models.product.ProductFactory;
+import util.ScannerHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,18 +28,15 @@ public class RestaurantFactory {
         Address address;
         List<ProductInterface> products = new ArrayList<ProductInterface>();
 
-        System.out.print("Enter restaurant name: ");
-        name = scanner.next();
+        name = ScannerHelper.nextLine("Enter restaurant name: ");
 
         System.out.println("Enter restaurant address");
         address = AddressFactory.createAddress(scanner);
 
-        System.out.print("Enter number of products: ");
-        int productCount = scanner.nextInt();
+        int productCount = ScannerHelper.nextInt("Enter number of products: ");
 
         for (int i = 0; i < productCount; i++) {
-            System.out.print("Enter product type (1 - ProductItem, 2 - SpecialProduct, 3 - Menu): ");
-            int productType = scanner.nextInt();
+            int productType = ScannerHelper.nextInt("Enter product type (1 - ProductItem, 2 - SpecialProduct, 3 - Menu): ");
             switch (productType) {
                 case 1:
                     products.add(ProductFactory.createProductItem(scanner));

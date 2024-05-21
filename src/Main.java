@@ -7,6 +7,7 @@ import models.restaurant.Restaurant;
 import services.*;
 import services.menu.MenuService;
 import tests.*;
+import util.ScannerHelper;
 
 import java.util.*;
 
@@ -34,6 +35,7 @@ public class Main {
 
     private static void initialiseMenu() {
         Scanner scanner = new Scanner(System.in);
+        ScannerHelper.init(scanner);
 
         Integer maxId = AddressRepository.getMaximumId();
         AddressFactory.setID(maxId + 1);

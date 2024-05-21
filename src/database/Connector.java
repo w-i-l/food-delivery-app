@@ -116,20 +116,20 @@ public class Connector {
         }
     }
 
-    private static boolean areAnyTablesEmpty() {
+    private static boolean areAllTablesEmpty() {
         String[] tableNames = {"Address", "Customer", "Driver", "Restaurant", "Product", "MenuItems", "RestaurantProducts", "_Order"};
         for (String tableName : tableNames) {
-            if (isTableEmpty(tableName)) {
-                return true;
+            if (!isTableEmpty(tableName)) {
+                return false;
             }
         }
-        return false;
+        return true;
     }
 
     public static void init() {
         initConnection();
         createDatabase();
-        if (areAnyTablesEmpty()) {
+        if (areAllTablesEmpty()) {
             populateDatabase();
         }
     }

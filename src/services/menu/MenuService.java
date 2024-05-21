@@ -4,6 +4,7 @@ import services.CustomerService;
 import services.DriverService;
 import services.OrderService;
 import services.RestaurantService;
+import util.ScannerHelper;
 
 import java.util.Scanner;
 
@@ -77,8 +78,7 @@ public class MenuService {
         System.out.println("2. Admin");
         System.out.println("3. Exit");
 
-        System.out.print("Enter your option: ");
-        Integer option = scanner.nextInt();
+        Integer option = ScannerHelper.nextInt("Enter your option: ");
 
         switch (option) {
             case 1:

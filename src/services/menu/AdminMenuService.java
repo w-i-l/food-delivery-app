@@ -14,6 +14,7 @@ import services.CustomerService;
 import services.DriverService;
 import services.OrderService;
 import services.RestaurantService;
+import util.ScannerHelper;
 
 import java.util.Dictionary;
 import java.util.Hashtable;
@@ -93,8 +94,7 @@ public class AdminMenuService {
 
     private void removeRestaurant() {
         listAllRestaurants();
-        System.out.println("Enter restaurant id:");
-        Integer id = scanner.nextInt();
+        Integer id = ScannerHelper.nextInt("Enter restaurant id: \n");
         Restaurant restaurant = this.restaurantService.getRestaurantById(id);
         this.restaurantService.removeRestaurant(restaurant);
         RestaurantRepository.deleteRestaurant(id);
@@ -102,8 +102,7 @@ public class AdminMenuService {
 
     private void updateRestaurant() {
         listAllRestaurants();
-        System.out.println("Enter restaurant id:");
-        Integer id = scanner.nextInt();
+        Integer id = ScannerHelper.nextInt("Enter restaurant id:\n");
         Restaurant restaurant = this.restaurantService.getRestaurantById(id);
         Restaurant updatedRestaurant = RestaurantFactory.createRestaurant(scanner);
         restaurant.updateRestaurant(updatedRestaurant);
@@ -112,16 +111,14 @@ public class AdminMenuService {
 
     private void showRestaurantDetails() {
         listAllRestaurants();
-        System.out.println("Enter restaurant id:");
-        Integer id = scanner.nextInt();
+        Integer id = ScannerHelper.nextInt("Enter restaurant id:\n");
         Restaurant restaurant = this.restaurantService.getRestaurantById(id);
         restaurant.showRestaurantDetails();
     }
 
     private boolean restaurantMain() {
         showRestaurantsUtils();
-        System.out.print("Enter option: ");
-        Integer option = scanner.nextInt();
+        Integer option = ScannerHelper.nextInt("Enter option: ");
         switch (option) {
             case 1:
                 listAllRestaurants();
@@ -173,8 +170,7 @@ public class AdminMenuService {
 
     private void removeDriver() {
         listAllDrivers();
-        System.out.println("Enter driver id:");
-        Integer id = scanner.nextInt();
+        Integer id = ScannerHelper.nextInt("Enter driver id:\n");
         Driver driver = this.driverService.getDriverById(id);
         this.driverService.removeDriver(driver);
         DriverRepository.deleteDriver(id);
@@ -182,8 +178,7 @@ public class AdminMenuService {
 
     private void updateDriver() {
         listAllDrivers();
-        System.out.println("Enter driver id:");
-        Integer id = scanner.nextInt();
+        Integer id = ScannerHelper.nextInt("Enter driver id:\n");
         Driver driver = this.driverService.getDriverById(id);
         Driver updatedDriver = DriverFactory.createDriver(scanner);
         driver.updateDriver(updatedDriver);
@@ -192,16 +187,14 @@ public class AdminMenuService {
 
     private void showDriverDetails() {
         listAllDrivers();
-        System.out.println("Enter driver id:");
-        Integer id = scanner.nextInt();
+        Integer id = ScannerHelper.nextInt("Enter driver id:\n");
         Driver driver = this.driverService.getDriverById(id);
         driver.showDriverDetails();
     }
 
     private boolean driverMain() {
         showDriversUtils();
-        System.out.print("Enter option: ");
-        Integer option = scanner.nextInt();
+        Integer option = ScannerHelper.nextInt("Enter option: ");
         switch (option) {
             case 1:
                 listAllDrivers();
@@ -253,8 +246,7 @@ public class AdminMenuService {
 
     private void removeCustomer() {
         listAllCustomers();
-        System.out.println("Enter customer id:");
-        Integer id = scanner.nextInt();
+        Integer id = ScannerHelper.nextInt("Enter customer id: ");
         Customer customer = this.customerService.getCustomerById(id);
         this.customerService.removeCustomer(customer);
         CustomerRepository.deleteCustomer(id);
@@ -262,8 +254,7 @@ public class AdminMenuService {
 
     private void updateCustomer() {
         listAllCustomers();
-        System.out.println("Enter customer id:");
-        Integer id = scanner.nextInt();
+        Integer id = ScannerHelper.nextInt("Enter customer id: \n");
         Customer customer = this.customerService.getCustomerById(id);
         Customer updatedCustomer = CustomerFactory.createCustomer(scanner);
         customer.updateCustomer(updatedCustomer);
@@ -272,16 +263,14 @@ public class AdminMenuService {
 
     private void showCustomerDetails() {
         listAllCustomers();
-        System.out.println("Enter customer id:");
-        Integer id = scanner.nextInt();
+        Integer id = ScannerHelper.nextInt("Enter customer id: \n");
         Customer customer = this.customerService.getCustomerById(id);
         customer.showCustomerDetails();
     }
 
     private boolean customerMain() {
         showCustomersUtils();
-        System.out.print("Enter option: ");
-        Integer option = scanner.nextInt();
+        Integer option = ScannerHelper.nextInt("Enter option: ");
         switch (option) {
             case 1:
                 listAllCustomers();
@@ -324,16 +313,14 @@ public class AdminMenuService {
 
     private void showOrderDetails() {
         listAllOrders();
-        System.out.println("Enter order id:");
-        Integer id = scanner.nextInt();
+        Integer id = ScannerHelper.nextInt("Enter order id: \n");
         Order order = this.orderService.getOrderById(id);
         order.showOrderDetails();
     }
 
     private boolean orderMain() {
         showOrdersUtils();
-        System.out.print("Enter option: ");
-        Integer option = scanner.nextInt();
+        Integer option = ScannerHelper.nextInt("Enter option: ");
         switch (option) {
             case 1:
                 listAllOrders();
@@ -364,8 +351,7 @@ public class AdminMenuService {
         System.out.println("Admin menu");
         showMenuOptions();
 
-        System.out.print("Enter option: ");
-        Integer option = scanner.nextInt();
+        Integer option = ScannerHelper.nextInt("Enter option: ");
         switch (option) {
             case 1:
                 restaurantMainLoop();

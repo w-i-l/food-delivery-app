@@ -1,5 +1,7 @@
 package models.product;
 
+import util.ScannerHelper;
+
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -41,11 +43,9 @@ public class ProductFactory {
         String name;
         Double price;
 
-        System.out.print("Enter product name: ");
-        name = scanner.next();
+        name = ScannerHelper.nextLine("Enter product name: ");
 
-        System.out.print("Enter product price: ");
-        price = scanner.nextDouble();
+        price = ScannerHelper.nextDouble("Enter product price: ");
 
         return new ProductItem(ID++, name, price);
     }
@@ -55,11 +55,9 @@ public class ProductFactory {
         Double price;
         Date availableUntil;
 
-        System.out.print("Enter product name: ");
-        name = scanner.next();
+        name = ScannerHelper.nextLine("Enter product name: ");
 
-        System.out.print("Enter product price: ");
-        price = scanner.nextDouble();
+        price = ScannerHelper.nextDouble("Enter product price: ");
 
         System.out.print("Enter product available until(dd-MM-yyyy): ");
         String dateString = scanner.next();
@@ -76,17 +74,13 @@ public class ProductFactory {
         Double discount;
         List<ProductItem> products = new ArrayList<>();;
 
-        System.out.print("Enter menu name: ");
-        name = scanner.nextLine();
+        name = ScannerHelper.nextLine("Enter menu name: ");
 
-        System.out.print("Enter menu description: ");
-        description = scanner.nextLine();
+        description = ScannerHelper.nextLine("Enter menu description: ");
 
-        System.out.print("Enter menu discount: ");
-        discount = scanner.nextDouble();
+        discount = ScannerHelper.nextDouble("Enter menu discount: ");
 
-        System.out.print("Enter number of products in menu: ");
-        Integer productCount = scanner.nextInt();
+        Integer productCount = ScannerHelper.nextInt("Enter number of products in menu: ");
 
         for (int i = 0; i < productCount; i++) {
             products.add(ProductFactory.createProductItem(scanner));

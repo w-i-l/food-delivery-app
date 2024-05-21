@@ -2,6 +2,7 @@ package models.customer;
 
 import models.address.Address;
 import models.address.AddressFactory;
+import util.ScannerHelper;
 
 import java.util.Scanner;
 
@@ -22,8 +23,7 @@ public class CustomerFactory {
         String name;
         Address address;
 
-        System.out.print("Enter customer name: ");
-        name = scanner.next();
+        name = ScannerHelper.nextLine("Enter customer name: ");
 
         address = AddressFactory.createAddress(scanner);
 

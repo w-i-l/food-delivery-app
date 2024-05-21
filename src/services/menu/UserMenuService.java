@@ -12,6 +12,7 @@ import services.CustomerService;
 import services.DriverService;
 import services.OrderService;
 import services.RestaurantService;
+import util.ScannerHelper;
 
 import java.util.*;
 public class UserMenuService {
@@ -92,8 +93,7 @@ public class UserMenuService {
         System.out.printf("\n\n");
         showMenuOptions();
 
-        System.out.print("Enter option: ");
-        Integer option = scanner.nextInt();
+        Integer option = ScannerHelper.nextInt("Enter option: ");
         switch (option) {
             case 1:
                 listAllRestaurants();
@@ -132,8 +132,7 @@ public class UserMenuService {
 
     private void viewMenuFromRestaurant() {
         listAllRestaurants();
-        System.out.println("Enter restaurant id: ");
-        Integer restaurantId = scanner.nextInt();
+        Integer restaurantId = ScannerHelper.nextInt("Enter restaurant id: \n");
         restaurantService.viewMenuFromRestaurant(restaurantId);
     }
 
@@ -147,15 +146,12 @@ public class UserMenuService {
         Dictionary<ProductInterface, Integer> products = new Hashtable<ProductInterface, Integer>();
 
         listAllRestaurants();
-        System.out.println("Choose a restaurant: ");
-        Integer restaurantId = scanner.nextInt();
+        Integer restaurantId = ScannerHelper.nextInt("Choose a restaurant: \n");
 
         restaurantService.viewMenuFromRestaurant(restaurantId);
         while (true) {
-            System.out.println("Enter product id: ");
-            Integer productId = scanner.nextInt();
-            System.out.println("Enter quantity: ");
-            Integer quantity = scanner.nextInt();
+            Integer productId = ScannerHelper.nextInt("Enter product id: \n");
+            Integer quantity = ScannerHelper.nextInt("Enter quantity: \n");
 
             ProductInterface product = restaurantService.getProductFromRestaurant(restaurantId, productId);
             products.put(product, quantity);
@@ -169,14 +165,12 @@ public class UserMenuService {
         }
 
         customerService.listAllCustomers();
-        System.out.println("Choose a customer: ");
-        Integer customerId = scanner.nextInt();
+        Integer customerId = ScannerHelper.nextInt("Choose a customer: \n");
 
         Restaurant restaurant = restaurantService.getRestaurantById(restaurantId);
         Customer customer = customerService.getCustomerById(customerId);
         driverService.listAllDriversWithETA(restaurant.getAddress(), customer.getAddress());
-        System.out.println("Choose a driver: ");
-        Integer driverId = scanner.nextInt();
+        Integer driverId = ScannerHelper.nextInt("Choose a driver: \n");
         Driver driver = driverService.getDriverById(driverId);
 
         Double discount = Math.random() * 0.5;
@@ -195,8 +189,7 @@ public class UserMenuService {
         if (orderService.getOrders().size() == 0) {
             return;
         }
-        System.out.println("Enter order id: ");
-        Integer orderId = scanner.nextInt();
+        Integer orderId = ScannerHelper.nextInt("Enter order id: ");
         orderService.getOrderById(orderId).showOrderDetails();
     }
 
@@ -205,8 +198,7 @@ public class UserMenuService {
         if(orderService.getOrders().size() == 0) {
             return;
         }
-        System.out.println("Enter order id: ");
-        Integer orderId = scanner.nextInt();
+        Integer orderId = ScannerHelper.nextInt("Enter order id: \n");
         Order order = orderService.getOrderById(orderId);
         order.setStatus(OrderStatus.ACCEPTED);
         OrderRepository.updateOrder(order);
@@ -218,8 +210,7 @@ public class UserMenuService {
             return;
         }
 
-        System.out.println("Enter order id: ");
-        Integer orderId = scanner.nextInt();
+        Integer orderId = ScannerHelper.nextInt("Enter order id: \n");
         Order order = orderService.getOrderById(orderId);
         System.out.printf("Order %d is %s, ETA: %f\n", orderId, order.getStatus(), order.getEstimatedDeliveryTime());
     }

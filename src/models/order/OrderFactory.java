@@ -7,6 +7,7 @@ import models.driver.DriverFactory;
 import models.product.*;
 import models.restaurant.Restaurant;
 import models.restaurant.RestaurantFactory;
+import util.ScannerHelper;
 
 import java.util.Dictionary;
 import java.util.Hashtable;
@@ -40,36 +41,29 @@ public class OrderFactory {
         System.out.println("Enter driver details");
         driver = DriverFactory.createDriver(scanner);
 
-        System.out.print("Enter price: ");
-        price = scanner.nextDouble();
+        price = ScannerHelper.nextDouble("Enter price: ");
 
-        System.out.println("Enter order status");
-        OrderStatus status = OrderStatus.fromString(scanner.next());
+        String statusString = ScannerHelper.nextLine("Enter order status(PENDING, ACCEPTED, REJECTED, DELIVERED): ");
+        OrderStatus status = OrderStatus.fromString(statusString);
 
-        System.out.print("Enter number of products: ");
-        int productCount = scanner.nextInt();
+        int productCount = ScannerHelper.nextInt("Enter number of products: ");
 
         for (int i = 0; i < productCount; i++) {
-            System.out.print("Enter product type (1 - ProductItem, 2 - SpecialProduct, 3 - Menu): ");
-            int productType = scanner.nextInt();
+            int productType = ScannerHelper.nextInt("Enter product type (1 - ProductItem, 2 - SpecialProduct, 3 - Menu): ");
             switch (productType) {
                 case 1:
                     ProductItem productItem = ProductFactory.createProductItem(scanner);
-                    Integer quantity;
-                    System.out.print("Enter quantity: ");
-                    quantity = scanner.nextInt();
+                    Integer quantity = ScannerHelper.nextInt("Enter quantity: ");
                     products.put(productItem, quantity);
                     break;
                 case 2:
                     SpecialProduct specialProduct = ProductFactory.createSpecialProduct(scanner);
-                    System.out.print("Enter quantity: ");
-                    quantity = scanner.nextInt();
+                    quantity = ScannerHelper.nextInt("Enter quantity: ");
                     products.put(specialProduct, quantity);
                     break;
                 case 3:
                     Menu menu = ProductFactory.createMenu(scanner);
-                    System.out.print("Enter quantity: ");
-                    quantity = scanner.nextInt();
+                    quantity = ScannerHelper.nextInt("Enter quantity: ");
                     products.put(menu, quantity);
                     break;
                 default:

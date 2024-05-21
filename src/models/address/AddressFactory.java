@@ -1,5 +1,7 @@
 package models.address;
 
+import util.ScannerHelper;
+
 import java.util.Random;
 import java.util.Scanner;
 
@@ -23,8 +25,7 @@ public class AddressFactory {
     public static Address createAddress(Scanner scanner) {
         String name;
 
-        System.out.print("Enter address name: ");
-        name = scanner.next();
+        name = ScannerHelper.nextLine("Enter address name: ");
 
         return createAddress(name);
     }
