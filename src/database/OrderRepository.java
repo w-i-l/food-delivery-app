@@ -14,7 +14,7 @@ import java.sql.*;
 import java.util.*;
 
 
-public class OrderRepository {
+public class OrderRepository extends BaseRepository {
     static private Connection connection = null;
 
     public static void initConnection() {
@@ -63,7 +63,7 @@ public class OrderRepository {
                 orders.add(order);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            printException(e);
         }
 
         return orders;
@@ -97,10 +97,13 @@ public class OrderRepository {
 
             preparedStatement.executeUpdate();
 
-        } catch (SQLIntegrityConstraintViolationException e) {
-            System.out.println("Order already exists");
         } catch (SQLException e) {
-            e.printStackTrace();
+            if (e.getErrorCode() == DUPLICATE_ENTRY_ERROR_CODE) {
+                String warningMessage = "Order (id:" + order.getId() + ") already exists";
+                System.out.println(warningMessage);
+            } else {
+                printException(e);
+            }
         }
 
         try {
@@ -119,10 +122,13 @@ public class OrderRepository {
 
                 preparedStatement1.executeUpdate();
             }
-        } catch (SQLIntegrityConstraintViolationException e) {
-            System.out.println("Order already exists");
         } catch (SQLException e) {
-            e.printStackTrace();
+            if (e.getErrorCode() == DUPLICATE_ENTRY_ERROR_CODE) {
+                String warningMessage = "OrderProducts (order_id:" + order.getId() + ") already exists";
+                System.out.println(warningMessage);
+            } else {
+                printException(e);
+            }
         }
     }
 
@@ -136,7 +142,7 @@ public class OrderRepository {
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            printException(e);
         }
     }
 
@@ -159,7 +165,7 @@ public class OrderRepository {
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            printException(e);
         }
     }
 
@@ -206,9 +212,44 @@ public class OrderRepository {
                 order = OrderFactory.createOrder(id, customer, restaurant, driver, orderStatus, products);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            printException(e);
         }
 
         return order;
+    }
+
+    public static void addProductToOrder(Integer productId, Integer orderId) {
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("""
+            INSERT INTO OrderProducts (order_id, product_id)
+            VALUES (?, ?)
+            """);
+            preparedStatement.setInt(1, orderId);
+            preparedStatement.setInt(2, productId);
+
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            if (e.getErrorCode() == DUPLICATE_ENTRY_ERROR_CODE) {
+                String warningMessage = "Product (id:" + productId + ") already exists in order (id:" + orderId + ")";
+                System.out.println(warningMessage);
+            } else {
+                printException(e);
+            }
+        }
+    }
+
+    public static void deleteProductFromOrder(Integer productId, Integer orderId) {
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("""
+            DELETE FROM OrderProducts
+            WHERE order_id = ? AND product_id = ?
+            """);
+            preparedStatement.setInt(1, orderId);
+            preparedStatement.setInt(2, productId);
+
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            printException(e);
+        }
     }
 }

@@ -4,7 +4,7 @@ import models.address.Address;
 
 import java.sql.*;
 
-public class AddressRepository {
+public class AddressRepository extends BaseRepository {
     private static Connection connection = null;
 
     public static void initConnection() {
@@ -22,12 +22,15 @@ public class AddressRepository {
             preparedStatement.setDouble(3, address.getLatitude());
             preparedStatement.setDouble(4, address.getLongitude());
             preparedStatement.executeUpdate();
-        } catch (SQLIntegrityConstraintViolationException e) {
-            System.out.println("Address already exists");
         } catch (SQLException e) {
-            e.printStackTrace();
+            if (e.getErrorCode() == DUPLICATE_ENTRY_ERROR_CODE) {
+                String warningMessage = "Address (id:" + address.getId() + ") already exists";
+                printWarning(warningMessage);
+            } else {
+                printException(e);
+            }
         }
-        
+
         return address;
     }
 
@@ -40,15 +43,14 @@ public class AddressRepository {
             preparedStatement.setInt(1, addressId);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            printException(e);
         }
     }
 
     public static void updateAddress(Address address) {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("""
-                
-                    UPDATE Address
+                UPDATE Address
                 SET name = ?, latitude = ?, longitude = ?
                 WHERE id = ?
                 """);
@@ -58,7 +60,7 @@ public class AddressRepository {
             preparedStatement.setInt(4, address.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            printException(e);
         }
     }
 
@@ -82,7 +84,7 @@ public class AddressRepository {
                 address = new Address(addressId, name, latitude, longitude);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            printException(e);
         }
 
         return address;

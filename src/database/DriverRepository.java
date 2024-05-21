@@ -9,7 +9,7 @@ import models.driver.Driver;
 import models.driver.DriverFactory;
 import models.driver.DriverType;
 
-public class DriverRepository {
+public class DriverRepository extends BaseRepository {
     private static Connection connection = null;
 
     public static void initConnection() {
@@ -35,7 +35,7 @@ public class DriverRepository {
                 drivers.add(driver);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            printException(e);
         }
 
         return drivers;
@@ -50,10 +50,13 @@ public class DriverRepository {
             preparedStatement.setInt(4, driver.getRating());
 
             preparedStatement.executeUpdate();
-        } catch (SQLIntegrityConstraintViolationException e) {
-          System.out.println("Driver already exists");
         } catch (SQLException e) {
-            e.printStackTrace();
+            if (e.getErrorCode() == DUPLICATE_ENTRY_ERROR_CODE) {
+                String warningMessage = "Driver (id:" + driver.getId() + ") already exists";
+                printWarning(warningMessage);
+            } else {
+                printException(e);
+            }
         }
     }
 
@@ -67,18 +70,18 @@ public class DriverRepository {
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            printException(e);
         }
     }
 
-    public static void deleteDriver(Driver driver) {
+    public static void deleteDriver(Integer driverId) {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM Driver WHERE id = ?");
-            preparedStatement.setInt(1, driver.getId());
+            preparedStatement.setInt(1, driverId);
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            printException(e);
         }
     }
 
@@ -99,7 +102,7 @@ public class DriverRepository {
                 driver = DriverFactory.createDriver(id, name, driverType, rating);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            printException(e);
         }
 
         return driver;

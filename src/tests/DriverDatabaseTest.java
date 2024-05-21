@@ -36,7 +36,7 @@ public class DriverDatabaseTest {
     private static void deleteDriver() {
         System.out.println("Deleting a driver...");
         Driver driver = new Driver(4, "Mocked Driver", DriverType.CAR, 5);
-        DriverRepository.deleteDriver(driver);
+        DriverRepository.deleteDriver(driver.getId());
     }
 
     private static void updateDriver() {

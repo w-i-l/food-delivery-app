@@ -27,10 +27,7 @@ public class RestaurantDatabaseTest {
 
     private static void getAllRestaurants() {
         System.out.println("Getting all restaurants...");
-        for(Restaurant restaurant: RestaurantRepository.getAllRestaurants()) {
-            restaurant.showRestaurantDetails();
-            restaurant.showMenu();
-        }
+        RestaurantRepository.getAllRestaurants();
     }
 
     private static void addRestaurant() {
@@ -52,7 +49,7 @@ public class RestaurantDatabaseTest {
                 new SpecialProduct(18, "Mocked Special Product 1", 10.0, new Date())
         );
         Restaurant restaurant = new Restaurant(4, "Mocked Restaurant", address, products);
-        RestaurantRepository.deleteRestaurant(restaurant);
+        RestaurantRepository.deleteRestaurant(restaurant.getId());
     }
 
     private static void updateRestaurant() {
@@ -78,13 +75,13 @@ public class RestaurantDatabaseTest {
         System.out.println("Adding a product to restaurant...");
         Restaurant restaurant = new Restaurant(1, "Mocked Restaurant", null, null);
         ProductInterface product = new ProductItem(5, "Mocked Product", 5.0);
-        RestaurantRepository.addProductToRestaurant(product, restaurant);
+        RestaurantRepository.addProductToRestaurant(product.getId(), restaurant.getId());
     }
 
     private static void deleteProductFromRestaurant() {
         System.out.println("Deleting a product from restaurant...");
         Restaurant restaurant = new Restaurant(1, "Mocked Restaurant", null, null);
         ProductInterface product = new ProductItem(5, "Mocked Product", 5.0);
-        RestaurantRepository.deleteProductFromRestaurant(product, restaurant);
+        RestaurantRepository.deleteProductFromRestaurant(product.getId(), restaurant.getId());
     }
 }

@@ -22,14 +22,14 @@ public class OrderDatabaseTest {
         addOrder();
         updateOrder();
         deleteOrder();
+        addProductToOrder();
+        deleteProductFromOrder();
         System.out.println("[Order Test PASSED] All tests passed successfully\n");
     }
 
     private static void getAllOrders() {
         System.out.println("Getting all orders...");
-         for(Order order: OrderRepository.getAllOrders()) {
-             order.showOrderDetails();
-         }
+        OrderRepository.getAllOrders();
     }
 
     private static void addOrder() {
@@ -53,5 +53,19 @@ public class OrderDatabaseTest {
         products.put(new ProductItem(2, "Product 2", 20.0), 1);
         Order order = new Order(10, CustomerRepository.getCustomerById(1), RestaurantRepository.getRestaurantById(1), DriverRepository.getDriverById(1), OrderStatus.ACCEPTED, products);
         OrderRepository.updateOrder(order);
+    }
+
+    private static void addProductToOrder() {
+        System.out.println("Adding a product to order...");
+        Order order = new Order(1, null, null, null, OrderStatus.PENDING, new java.util.Hashtable<>());
+        ProductInterface product = new ProductItem(2, "Mocked Product", 5.0);
+        OrderRepository.addProductToOrder(product.getId(), order.getId());
+    }
+
+    private static void deleteProductFromOrder() {
+        System.out.println("Deleting a product from order...");
+        Order order = new Order(1, null, null, null, OrderStatus.PENDING, new java.util.Hashtable<>());
+        ProductInterface product = new ProductItem(2, "Mocked Product", 5.0);
+        OrderRepository.deleteProductFromOrder(product.getId(), order.getId());
     }
 }

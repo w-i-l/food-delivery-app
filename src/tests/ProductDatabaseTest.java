@@ -1,5 +1,6 @@
 package tests;
 
+import database.OrderRepository;
 import database.ProductRepository;
 import models.order.Order;
 import models.order.OrderStatus;
@@ -20,9 +21,7 @@ public class ProductDatabaseTest {
         getProductsForOrder();
         addProduct();
         updateProduct();
-        addProductToOrder();
         deleteProduct();
-        deleteProductFromOrder();
         System.out.println("[Product Test PASSED] All tests passed successfully\n");
     }
 
@@ -84,31 +83,11 @@ public class ProductDatabaseTest {
         System.out.println("Getting products for restaurant...");
         Restaurant restaurant = new Restaurant(1, "Mocked Restaurant", null, null);
         List<ProductInterface> products = ProductRepository.getProductsForRestaurant(restaurant.getId());
-        for (ProductInterface product : products) {
-            product.showProductDetails();
-        }
     }
 
     private static void getProductsForOrder() {
         System.out.println("Getting products for order...");
         Order order = new Order(1, null, null, null, OrderStatus.PENDING, new java.util.Hashtable<>());
-        List<ProductInterface> products = ProductRepository.getProductsForOrder(order);
-        for (ProductInterface product: products) {
-            product.showProductDetails();
-        }
-    }
-
-    private static void addProductToOrder() {
-        System.out.println("Adding a product to order...");
-        Order order = new Order(1, null, null, null, OrderStatus.PENDING, new java.util.Hashtable<>());
-        ProductInterface product = new ProductItem(14, "Mocked Product", 5.0);
-        ProductRepository.addProductToOrder(product, order);
-    }
-
-    private static void deleteProductFromOrder() {
-        System.out.println("Deleting a product from order...");
-        Order order = new Order(1, null, null, null, OrderStatus.PENDING, new java.util.Hashtable<>());
-        ProductInterface product = new ProductItem(14, "Mocked Product", 5.0);
-        ProductRepository.deleteProductFromOrder(product, order);
+        List<ProductInterface> products = ProductRepository.getProductsForOrder(order.getId());
     }
 }

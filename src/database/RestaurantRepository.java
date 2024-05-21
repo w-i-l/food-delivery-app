@@ -10,7 +10,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RestaurantRepository {
+public class RestaurantRepository extends BaseRepository {
 
     private static Connection connection = null;
     public static void initConnection() {
@@ -43,7 +43,7 @@ public class RestaurantRepository {
                 restaurants.add(restaurant);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            printException(e);
         }
 
         return restaurants;
@@ -65,26 +65,29 @@ public class RestaurantRepository {
 
             for (ProductInterface product : restaurant.getProducts()) {
                 ProductRepository.addProduct(product);
-                RestaurantRepository.addProductToRestaurant(product, restaurant);
+                RestaurantRepository.addProductToRestaurant(product.getId(), restaurant.getId());
             }
-        } catch(SQLIntegrityConstraintViolationException e) {
-            System.out.println("Restaurant already exists");
         } catch (SQLException e) {
-            e.printStackTrace();
+            if (e.getErrorCode() == DUPLICATE_ENTRY_ERROR_CODE) {
+                String warningMessage = "Restaurant (id:" + restaurant.getId() + ") already exists";
+                printWarning(warningMessage);
+            } else {
+                printException(e);
+            }
         }
     }
 
-    public static void deleteRestaurant(Restaurant restaurant) {
+    public static void deleteRestaurant(Integer restaurantId) {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("""
             DELETE FROM Restaurant
             WHERE id = ?
             """);
-            preparedStatement.setInt(1, restaurant.getId());
+            preparedStatement.setInt(1, restaurantId);
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            printException(e);
         }
     }
 
@@ -105,43 +108,45 @@ public class RestaurantRepository {
 
             for (ProductInterface product : restaurant.getProducts()) {
                 ProductRepository.addProduct(product);
-                RestaurantRepository.addProductToRestaurant(product, restaurant);
+                RestaurantRepository.addProductToRestaurant(product.getId(), restaurant.getId());
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            printException(e);
         }
     }
 
-    public static void addProductToRestaurant(ProductInterface product, Restaurant restaurant) {
+    public static void addProductToRestaurant(Integer productId, Integer restaurantId) {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("""
             INSERT INTO RestaurantProducts (restaurant_id, product_id)
             VALUES (?, ?)
             """);
-            preparedStatement.setInt(1, restaurant.getId());
-            preparedStatement.setInt(2, product.getId());
+            preparedStatement.setInt(1, restaurantId);
+            preparedStatement.setInt(2, productId);
 
             preparedStatement.executeUpdate();
-        } catch (SQLIntegrityConstraintViolationException e) {
-            // Product already exists
-            System.out.println("Product already exists");
         } catch (SQLException e) {
-            e.printStackTrace();
+            if (e.getErrorCode() == DUPLICATE_ENTRY_ERROR_CODE) {
+                String warningMessage = "Product (id:" + productId + ") already exists in restaurant (id:" + restaurantId + ")";
+                printWarning(warningMessage);
+            } else {
+                printException(e);
+            }
         }
     }
 
-    public static void deleteProductFromRestaurant(ProductInterface product, Restaurant restaurant) {
+    public static void deleteProductFromRestaurant(Integer productId, Integer restaurantId) {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("""
             DELETE FROM RestaurantProducts
             WHERE restaurant_id = ? AND product_id = ?
             """);
-            preparedStatement.setInt(1, restaurant.getId());
-            preparedStatement.setInt(2, product.getId());
+            preparedStatement.setInt(1, restaurantId);
+            preparedStatement.setInt(2, productId);
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            printException(e);
         }
     }
 
@@ -166,7 +171,7 @@ public class RestaurantRepository {
                 restaurant = RestaurantFactory.createRestaurant(id, name, address, products);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            printException(e);
         }
 
         return restaurant;

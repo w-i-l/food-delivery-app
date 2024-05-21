@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class ProductRepository {
+public class ProductRepository extends BaseRepository {
     private static Connection connection = null;
 
     public static void initConnection() {
@@ -37,8 +37,13 @@ public class ProductRepository {
 
                 try {
                     productStatement.executeUpdate();
-                } catch (SQLIntegrityConstraintViolationException e) {
-                    System.out.println("Product already exists");
+                } catch (SQLException e) {
+                    if (e.getErrorCode() == DUPLICATE_ENTRY_ERROR_CODE) {
+                        String warningMessage = "Product (id:" + product.getId() + ") already exists";
+                        printWarning(warningMessage);
+                    } else {
+                        printException(e);
+                    }
                 }
             } else if(product instanceof SpecialProduct) {
                 java.sql.Date availableUntil = null;
@@ -58,8 +63,13 @@ public class ProductRepository {
 
                 try {
                     specialProductStatement.executeUpdate();
-                } catch (SQLIntegrityConstraintViolationException e) {
-                    System.out.println("Product already exists");
+                } catch (SQLException e) {
+                    if (e.getErrorCode() == DUPLICATE_ENTRY_ERROR_CODE) {
+                        String warningMessage = "Product (id:" + product.getId() + ") already exists";
+                        printWarning(warningMessage);
+                    } else {
+                        printException(e);
+                    }
                 }
             } else {
                 type = "MENU";
@@ -79,8 +89,13 @@ public class ProductRepository {
 
                 try {
                     menuStatementFinal.executeUpdate();
-                } catch (SQLIntegrityConstraintViolationException e) {
-                    System.out.println("Product already exists");
+                } catch (SQLException e) {
+                    if (e.getErrorCode() == DUPLICATE_ENTRY_ERROR_CODE) {
+                        String warningMessage = "Product (id:" + product.getId() + ") already exists";
+                        printWarning(warningMessage);
+                    } else {
+                        printException(e);
+                    }
                 }
 
                 PreparedStatement menuStatement = connection.prepareStatement("""
@@ -107,8 +122,13 @@ public class ProductRepository {
                     menuStatement.setString(5, typeItem);
                     try {
                         menuStatement.executeUpdate();
-                    } catch (SQLIntegrityConstraintViolationException e) {
-                        System.out.println("Product already exists");
+                    } catch (SQLException e) {
+                        if (e.getErrorCode() == DUPLICATE_ENTRY_ERROR_CODE) {
+                            String warningMessage = "Product (id:" + item.getId() + ") already exists";
+                            printWarning(warningMessage);
+                        } else {
+                            printException(e);
+                        }
                     }
 
                     PreparedStatement menuItemsStatement = connection.prepareStatement("""
@@ -120,10 +140,13 @@ public class ProductRepository {
                     menuItemsStatement.executeUpdate();
                 }
             }
-        } catch (SQLIntegrityConstraintViolationException e) {
-            System.out.println("Product already exists");
         } catch (SQLException e) {
-            e.printStackTrace();
+            if (e.getErrorCode() == DUPLICATE_ENTRY_ERROR_CODE) {
+                String warningMessage = "Product (id:" + product.getId() + ") already exists";
+                printWarning(warningMessage);
+            } else {
+                printException(e);
+            }
         }
     }
 
@@ -155,7 +178,7 @@ public class ProductRepository {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            printException(e);
         }
     }
 
@@ -260,7 +283,7 @@ public class ProductRepository {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            printException(e);
         }
     }
 
@@ -332,13 +355,13 @@ public class ProductRepository {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            printException(e);
         }
 
         return products;
     }
 
-    public static List<ProductInterface> getProductsForOrder(Order order) {
+    public static List<ProductInterface> getProductsForOrder(Integer orderId) {
         List<ProductInterface> products = new ArrayList<>();
 
         try {
@@ -347,7 +370,7 @@ public class ProductRepository {
             FROM Product p, OrderProducts op
             WHERE p.id = op.product_id AND op.order_id = ?
             """);
-            preparedStatement.setInt(1, order.getId());
+            preparedStatement.setInt(1, orderId);
 
             ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -411,40 +434,10 @@ public class ProductRepository {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            printException(e);
         }
 
         return products;
-    }
-
-    public static void addProductToOrder(ProductInterface product, Order order) {
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement("""
-            INSERT INTO OrderProducts (order_id, product_id)
-            VALUES (?, ?)
-            """);
-            preparedStatement.setInt(1, order.getId());
-            preparedStatement.setInt(2, product.getId());
-
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static void deleteProductFromOrder(ProductInterface product, Order order) {
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement("""
-            DELETE FROM OrderProducts
-            WHERE order_id = ? AND product_id = ?
-            """);
-            preparedStatement.setInt(1, order.getId());
-            preparedStatement.setInt(2, product.getId());
-
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
 
     public static ProductInterface getProductById(Integer id) {
@@ -510,7 +503,7 @@ public class ProductRepository {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            printException(e);
         }
 
         return product;

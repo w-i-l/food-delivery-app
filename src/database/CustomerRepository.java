@@ -9,7 +9,7 @@ import java.sql.*;
 import java.util.HashSet;
 import java.util.Set;
 
-public class CustomerRepository {
+public class CustomerRepository extends BaseRepository {
     private static Connection connection = null;
 
     public static void initConnection() {
@@ -35,7 +35,7 @@ public class CustomerRepository {
                 customers.add(customer);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            printException(e);
         }
 
         return customers;
@@ -52,10 +52,13 @@ public class CustomerRepository {
             preparedStatement.setInt(3, customer.getAddress().getId());
 
             preparedStatement.executeUpdate();
-        } catch (SQLIntegrityConstraintViolationException e) {
-            System.out.println("Customer already exists");
         } catch (SQLException e) {
-            e.printStackTrace();
+            if (e.getErrorCode() == DUPLICATE_ENTRY_ERROR_CODE) {
+                String warningMessage = "Customer (id:" + customer.getId() + ") already exists";
+                printWarning(warningMessage);
+            } else {
+            printException(e);
+            }
         }
     }
 
@@ -71,21 +74,18 @@ public class CustomerRepository {
             // Update the address information
             AddressRepository.updateAddress(customer.getAddress());
         } catch (SQLException e) {
-            e.printStackTrace();
+            printException(e);
         }
     }
 
-    public static void deleteCustomer(Customer customer) {
+    public static void deleteCustomer(Integer customerId) {
         try {
             // Delete the customer
             PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM Customer WHERE id = ?");
-            preparedStatement.setInt(1, customer.getId());
+            preparedStatement.setInt(1, customerId);
             preparedStatement.executeUpdate();
-
-            // Optionally, delete the address if no other customer is using it
-            AddressRepository.deleteAddress(customer.getAddress().getId());
         } catch (SQLException e) {
-            e.printStackTrace();
+            printException(e);
         }
     }
 
@@ -107,7 +107,7 @@ public class CustomerRepository {
                 customer = CustomerFactory.createCustomer(id, name, address);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            printException(e);
         }
 
         return customer;

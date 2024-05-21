@@ -41,7 +41,7 @@ public class CustomerDatabaseTest {
         System.out.println("Deleting a customer...");
         Address address = new Address(4, "Mocked Address", 5.0, 5.0);
         Customer customer = new Customer(4, "Mocked Customer", address);
-        CustomerRepository.deleteCustomer(customer);
+        CustomerRepository.deleteCustomer(customer.getId());
     }
 
     private static void updateCustomer() {
