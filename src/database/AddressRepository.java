@@ -2,6 +2,8 @@ package database;
 
 import models.address.Address;
 import models.address.AddressFactory;
+import services.audit.AuditDatabaseAction;
+import services.audit.AuditService;
 
 import java.sql.*;
 
@@ -14,6 +16,8 @@ public class AddressRepository extends BaseRepository {
     }
 
     public static Address addAddress(Address address) {
+        AuditService.log("Address", AuditDatabaseAction.CREATE);
+
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("""
                 INSERT INTO Address (id, name, latitude, longitude)
@@ -37,6 +41,8 @@ public class AddressRepository extends BaseRepository {
     }
 
     public static void deleteAddress(Integer addressId) {
+        AuditService.log("Address", AuditDatabaseAction.DELETE);
+
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("""
                 DELETE FROM Address
@@ -50,6 +56,8 @@ public class AddressRepository extends BaseRepository {
     }
 
     public static void updateAddress(Address address) {
+        AuditService.log("Address", AuditDatabaseAction.UPDATE);
+
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("""
                 UPDATE Address
@@ -67,6 +75,8 @@ public class AddressRepository extends BaseRepository {
     }
 
     public static Address getAddressById(Integer addressId) {
+        AuditService.log("Address", AuditDatabaseAction.READ);
+
         Address address = null;
 
         try {
@@ -93,6 +103,8 @@ public class AddressRepository extends BaseRepository {
     }
 
     public static Integer getMaximumId() {
+        AuditService.log("Address", AuditDatabaseAction.READ);
+
         Integer id = 0;
 
         try {

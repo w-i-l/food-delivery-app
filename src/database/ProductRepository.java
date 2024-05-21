@@ -3,6 +3,8 @@ package database;
 import models.order.Order;
 import models.product.*;
 import models.restaurant.Restaurant;
+import services.audit.AuditDatabaseAction;
+import services.audit.AuditService;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -18,6 +20,8 @@ public class ProductRepository extends BaseRepository {
     }
 
     public static void addProduct(ProductInterface product) {
+        AuditService.log("Product", AuditDatabaseAction.CREATE);
+
         try {
             Integer id = product.getId();
             String name = product.getName();
@@ -152,6 +156,8 @@ public class ProductRepository extends BaseRepository {
     }
 
     public static void deleteProduct(ProductInterface product) {
+        AuditService.log("Product", AuditDatabaseAction.DELETE);
+
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("""
             DELETE FROM Product
@@ -184,6 +190,8 @@ public class ProductRepository extends BaseRepository {
     }
 
     public static void updateProduct(ProductInterface product) {
+        AuditService.log("Product", AuditDatabaseAction.UPDATE);
+
         try {
             Integer id = product.getId();
             String name = product.getName();
@@ -289,6 +297,8 @@ public class ProductRepository extends BaseRepository {
     }
 
     public static List<ProductInterface> getProductsForRestaurant(Integer resturantId) {
+        AuditService.log("Product", AuditDatabaseAction.READ);
+
         List<ProductInterface> products = new ArrayList<>();
 
         try {
@@ -363,6 +373,8 @@ public class ProductRepository extends BaseRepository {
     }
 
     public static List<ProductInterface> getProductsForOrder(Integer orderId) {
+        AuditService.log("Product", AuditDatabaseAction.READ);
+
         List<ProductInterface> products = new ArrayList<>();
 
         try {
@@ -442,6 +454,8 @@ public class ProductRepository extends BaseRepository {
     }
 
     public static ProductInterface getProductById(Integer id) {
+        AuditService.log("Product", AuditDatabaseAction.READ);
+
         ProductInterface product = null;
 
         try {

@@ -7,6 +7,8 @@ import models.order.OrderFactory;
 import models.order.OrderStatus;
 import models.product.ProductInterface;
 import models.restaurant.Restaurant;
+import services.audit.AuditDatabaseAction;
+import services.audit.AuditService;
 
 import java.sql.Connection;
 
@@ -23,6 +25,8 @@ public class OrderRepository extends BaseRepository {
     }
 
     public static List<Order> getAllOrders() {
+        AuditService.log("Order", AuditDatabaseAction.READ);
+
         List<Order> orders = new ArrayList<Order>();
 
         try {
@@ -71,6 +75,8 @@ public class OrderRepository extends BaseRepository {
     }
 
     public static void addOrder(Order order) {
+        AuditService.log("Order", AuditDatabaseAction.CREATE);
+
         try {
             Customer customer = order.getCustomer();
             CustomerRepository.addCustomer(customer);
@@ -134,6 +140,8 @@ public class OrderRepository extends BaseRepository {
     }
 
     public static void deleteOrder(Integer orderId) {
+        AuditService.log("Order", AuditDatabaseAction.DELETE);
+
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("""
             DELETE FROM _Order
@@ -148,6 +156,8 @@ public class OrderRepository extends BaseRepository {
     }
 
     public static void updateOrder(Order order) {
+        AuditService.log("Order", AuditDatabaseAction.UPDATE);
+
         try {
             CustomerRepository.addCustomer(order.getCustomer());
             RestaurantRepository.addRestaurant(order.getRestaurant());
@@ -171,6 +181,8 @@ public class OrderRepository extends BaseRepository {
     }
 
     public static Order getOrderById(Integer orderId) {
+        AuditService.log("Order", AuditDatabaseAction.READ);
+
         Order order = null;
 
         try {
@@ -220,6 +232,8 @@ public class OrderRepository extends BaseRepository {
     }
 
     public static void addProductToOrder(Integer productId, Integer orderId) {
+        AuditService.log("OrderProducts", AuditDatabaseAction.CREATE);
+
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("""
             INSERT INTO OrderProducts (order_id, product_id)
@@ -240,6 +254,8 @@ public class OrderRepository extends BaseRepository {
     }
 
     public static void deleteProductFromOrder(Integer productId, Integer orderId) {
+        AuditService.log("OrderProducts", AuditDatabaseAction.DELETE);
+
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("""
             DELETE FROM OrderProducts

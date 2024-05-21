@@ -4,6 +4,8 @@ import models.address.Address;
 import models.address.AddressFactory;
 import models.customer.Customer;
 import models.customer.CustomerFactory;
+import services.audit.AuditDatabaseAction;
+import services.audit.AuditService;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -20,6 +22,8 @@ public class CustomerRepository extends BaseRepository {
     }
 
     public static List<Customer> getAllCustomers() {
+        AuditService.log("Customer", AuditDatabaseAction.READ);
+
         List<Customer> customers = new ArrayList<>();
 
         try {
@@ -45,6 +49,8 @@ public class CustomerRepository extends BaseRepository {
     }
 
     public static void addCustomer(Customer customer) {
+        AuditService.log("Customer", AuditDatabaseAction.CREATE);
+
         try {
             AddressRepository.addAddress(customer.getAddress());
 
@@ -66,6 +72,8 @@ public class CustomerRepository extends BaseRepository {
     }
 
     public static void updateCustomer(Customer customer) {
+        AuditService.log("Customer", AuditDatabaseAction.UPDATE);
+
         try {
             AddressRepository.addAddress(customer.getAddress());
 
@@ -85,6 +93,8 @@ public class CustomerRepository extends BaseRepository {
     }
 
     public static void deleteCustomer(Integer customerId) {
+        AuditService.log("Customer", AuditDatabaseAction.DELETE);
+
         try {
             // Delete the customer
             PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM Customer WHERE id = ?");
@@ -96,6 +106,8 @@ public class CustomerRepository extends BaseRepository {
     }
 
     public static Customer getCustomerById(Integer id) {
+        AuditService.log("Customer", AuditDatabaseAction.READ);
+
         Customer customer = null;
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("""

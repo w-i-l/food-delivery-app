@@ -4,6 +4,8 @@ import models.address.Address;
 import models.product.ProductInterface;
 import models.restaurant.Restaurant;
 import models.restaurant.RestaurantFactory;
+import services.audit.AuditDatabaseAction;
+import services.audit.AuditService;
 import tests.RestaurantDatabaseTest;
 
 import java.sql.*;
@@ -19,6 +21,8 @@ public class RestaurantRepository extends BaseRepository {
     }
 
     public static List<Restaurant> getAllRestaurants() {
+        AuditService.log("Restaurant", AuditDatabaseAction.READ);
+
         List<Restaurant> restaurants = new ArrayList<Restaurant>();
 
         try {
@@ -46,6 +50,8 @@ public class RestaurantRepository extends BaseRepository {
     }
 
     public static void addRestaurant(Restaurant restaurant) {
+        AuditService.log("Restaurant", AuditDatabaseAction.CREATE);
+
         try {
             AddressRepository.addAddress(restaurant.getAddress());
 
@@ -74,6 +80,8 @@ public class RestaurantRepository extends BaseRepository {
     }
 
     public static void deleteRestaurant(Integer restaurantId) {
+        AuditService.log("Restaurant", AuditDatabaseAction.DELETE);
+
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("""
             DELETE FROM Restaurant
@@ -88,6 +96,8 @@ public class RestaurantRepository extends BaseRepository {
     }
 
     public static void updateRestaurant(Restaurant restaurant) {
+        AuditService.log("Restaurant", AuditDatabaseAction.UPDATE);
+
         try {
             AddressRepository.addAddress(restaurant.getAddress());
 
@@ -112,6 +122,8 @@ public class RestaurantRepository extends BaseRepository {
     }
 
     public static void addProductToRestaurant(Integer productId, Integer restaurantId) {
+        AuditService.log("RestaurantProducts", AuditDatabaseAction.CREATE);
+
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("""
             INSERT INTO RestaurantProducts (restaurant_id, product_id)
@@ -132,6 +144,8 @@ public class RestaurantRepository extends BaseRepository {
     }
 
     public static void deleteProductFromRestaurant(Integer productId, Integer restaurantId) {
+        AuditService.log("RestaurantProducts", AuditDatabaseAction.DELETE);
+
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("""
             DELETE FROM RestaurantProducts
@@ -147,6 +161,8 @@ public class RestaurantRepository extends BaseRepository {
     }
 
     public static Restaurant getRestaurantById(Integer id) {
+        AuditService.log("Restaurant", AuditDatabaseAction.READ);
+
         Restaurant restaurant = null;
 
         try {

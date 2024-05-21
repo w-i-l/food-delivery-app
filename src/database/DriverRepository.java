@@ -10,6 +10,8 @@ import database.Connector;
 import models.driver.Driver;
 import models.driver.DriverFactory;
 import models.driver.DriverType;
+import services.audit.AuditDatabaseAction;
+import services.audit.AuditService;
 
 public class DriverRepository extends BaseRepository {
     private static Connection connection = null;
@@ -20,6 +22,7 @@ public class DriverRepository extends BaseRepository {
     }
 
     public static List<Driver> getAllDrivers() {
+        AuditService.log("Driver", AuditDatabaseAction.READ);
 
         List<Driver> drivers = new ArrayList<>();
 
@@ -45,6 +48,8 @@ public class DriverRepository extends BaseRepository {
     }
 
     public static void addDriver(Driver driver) {
+        AuditService.log("Driver", AuditDatabaseAction.CREATE);
+
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO Driver VALUES (?, ?, ?, ?)");
             preparedStatement.setInt(1, driver.getId());
@@ -64,6 +69,8 @@ public class DriverRepository extends BaseRepository {
     }
 
     public static void updateDriver(Driver driver) {
+        AuditService.log("Driver", AuditDatabaseAction.UPDATE);
+
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE Driver SET name = ?, type = ?, rating = ? WHERE id = ?");
             preparedStatement.setString(1, driver.getName());
@@ -78,6 +85,8 @@ public class DriverRepository extends BaseRepository {
     }
 
     public static void deleteDriver(Integer driverId) {
+        AuditService.log("Driver", AuditDatabaseAction.DELETE);
+
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM Driver WHERE id = ?");
             preparedStatement.setInt(1, driverId);
@@ -89,6 +98,8 @@ public class DriverRepository extends BaseRepository {
     }
 
     public static Driver getDriverById(Integer id) {
+        AuditService.log("Driver", AuditDatabaseAction.READ);
+
         Driver driver = null;
 
         try {
