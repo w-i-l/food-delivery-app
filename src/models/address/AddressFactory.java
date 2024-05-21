@@ -28,4 +28,8 @@ public class AddressFactory {
 
         return createAddress(name);
     }
+
+    public static void setID(int id) {
+        ID = Math.max(ID, id);
+    }
 }

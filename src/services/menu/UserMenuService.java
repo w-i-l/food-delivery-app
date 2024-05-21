@@ -1,5 +1,6 @@
 package services.menu;
 
+import database.OrderRepository;
 import models.customer.Customer;
 import models.driver.Driver;
 import models.order.Order;
@@ -182,6 +183,7 @@ public class UserMenuService {
         price = price - price * discount;
         Order order = OrderFactory.createOrder(customer, restaurant, driver, OrderStatus.PENDING, products);
         orderService.addOrder(order);
+        OrderRepository.addOrder(order);
     }
 
     private void listAllOrders() {
@@ -207,6 +209,7 @@ public class UserMenuService {
         Integer orderId = scanner.nextInt();
         Order order = orderService.getOrderById(orderId);
         order.setStatus(OrderStatus.ACCEPTED);
+        OrderRepository.updateOrder(order);
     }
 
     private void seeOrderStatus() {

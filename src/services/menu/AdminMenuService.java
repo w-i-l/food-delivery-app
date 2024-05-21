@@ -1,5 +1,8 @@
 package services.menu;
 
+import database.CustomerRepository;
+import database.DriverRepository;
+import database.RestaurantRepository;
 import models.customer.Customer;
 import models.customer.CustomerFactory;
 import models.driver.Driver;
@@ -85,6 +88,7 @@ public class AdminMenuService {
     private void addRestaurant() {
         Restaurant restaurant = RestaurantFactory.createRestaurant(scanner);
         this.restaurantService.addRestaurant(restaurant);
+        RestaurantRepository.addRestaurant(restaurant);
     }
 
     private void removeRestaurant() {
@@ -93,6 +97,7 @@ public class AdminMenuService {
         Integer id = scanner.nextInt();
         Restaurant restaurant = this.restaurantService.getRestaurantById(id);
         this.restaurantService.removeRestaurant(restaurant);
+        RestaurantRepository.deleteRestaurant(id);
     }
 
     private void updateRestaurant() {
@@ -102,6 +107,7 @@ public class AdminMenuService {
         Restaurant restaurant = this.restaurantService.getRestaurantById(id);
         Restaurant updatedRestaurant = RestaurantFactory.createRestaurant(scanner);
         restaurant.updateRestaurant(updatedRestaurant);
+        RestaurantRepository.updateRestaurant(restaurant);
     }
 
     private void showRestaurantDetails() {
@@ -162,6 +168,7 @@ public class AdminMenuService {
     private void addDriver() {
         Driver driver = DriverFactory.createDriver(scanner);
         this.driverService.addDriver(driver);
+        DriverRepository.addDriver(driver);
     }
 
     private void removeDriver() {
@@ -170,6 +177,7 @@ public class AdminMenuService {
         Integer id = scanner.nextInt();
         Driver driver = this.driverService.getDriverById(id);
         this.driverService.removeDriver(driver);
+        DriverRepository.deleteDriver(id);
     }
 
     private void updateDriver() {
@@ -179,6 +187,7 @@ public class AdminMenuService {
         Driver driver = this.driverService.getDriverById(id);
         Driver updatedDriver = DriverFactory.createDriver(scanner);
         driver.updateDriver(updatedDriver);
+        DriverRepository.updateDriver(driver);
     }
 
     private void showDriverDetails() {
@@ -239,6 +248,7 @@ public class AdminMenuService {
     private void addCustomer() {
         Customer customer = CustomerFactory.createCustomer(scanner);
         this.customerService.addCustomer(customer);
+        CustomerRepository.addCustomer(customer);
     }
 
     private void removeCustomer() {
@@ -247,6 +257,7 @@ public class AdminMenuService {
         Integer id = scanner.nextInt();
         Customer customer = this.customerService.getCustomerById(id);
         this.customerService.removeCustomer(customer);
+        CustomerRepository.deleteCustomer(id);
     }
 
     private void updateCustomer() {
@@ -256,6 +267,7 @@ public class AdminMenuService {
         Customer customer = this.customerService.getCustomerById(id);
         Customer updatedCustomer = CustomerFactory.createCustomer(scanner);
         customer.updateCustomer(updatedCustomer);
+        CustomerRepository.updateCustomer(customer);
     }
 
     private void showCustomerDetails() {

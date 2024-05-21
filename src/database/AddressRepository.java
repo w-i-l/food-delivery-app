@@ -1,6 +1,7 @@
 package database;
 
 import models.address.Address;
+import models.address.AddressFactory;
 
 import java.sql.*;
 
@@ -8,6 +9,7 @@ public class AddressRepository extends BaseRepository {
     private static Connection connection = null;
 
     public static void initConnection() {
+       printSuccess("AddressRepository: Connection initialized");
         connection = Connector.getConnection();
     }
 
@@ -81,12 +83,32 @@ public class AddressRepository extends BaseRepository {
                 Double latitude = resultSet.getDouble("latitude");
                 Double longitude = resultSet.getDouble("longitude");
 
-                address = new Address(addressId, name, latitude, longitude);
+                address = AddressFactory.createAddress(addressId, name, latitude, longitude);
             }
         } catch (SQLException e) {
             printException(e);
         }
 
         return address;
+    }
+
+    public static Integer getMaximumId() {
+        Integer id = 0;
+
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("""
+                SELECT MAX(id) as id
+                FROM Address
+                """);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                id = resultSet.getInt("id");
+            }
+        } catch (SQLException e) {
+            printException(e);
+        }
+
+        return id;
     }
 }

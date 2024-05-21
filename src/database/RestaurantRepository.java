@@ -14,6 +14,7 @@ public class RestaurantRepository extends BaseRepository {
 
     private static Connection connection = null;
     public static void initConnection() {
+        printSuccess("RestaurantRepository: Connection initialized");
         connection = Connector.getConnection();
     }
 
@@ -23,20 +24,15 @@ public class RestaurantRepository extends BaseRepository {
         try {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery("""
-            SELECT r.id, r.name, a.id, a.name, a.latitude, a.longitude 
-            FROM Restaurant r, Address a
-            WHERE r.address_id = a.id
+            SELECT id, name, address_id
+            FROM Restaurant r
             """);
 
             while (resultSet.next()) {
                 Integer id = resultSet.getInt("id");
                 String name = resultSet.getString("name");
-                Address address = new Address(
-                        resultSet.getInt("a.id"),
-                        resultSet.getString("a.name"),
-                        resultSet.getDouble("a.latitude"),
-                        resultSet.getDouble("a.longitude")
-                );
+                Integer addressId = resultSet.getInt("address_id");
+                Address address = AddressRepository.getAddressById(addressId);
                 List<ProductInterface> products = ProductRepository.getProductsForRestaurant(id);
 
                 Restaurant restaurant = RestaurantFactory.createRestaurant(id, name, address, products);
@@ -93,7 +89,7 @@ public class RestaurantRepository extends BaseRepository {
 
     public static void updateRestaurant(Restaurant restaurant) {
         try {
-            AddressRepository.updateAddress(restaurant.getAddress());
+            AddressRepository.addAddress(restaurant.getAddress());
 
             PreparedStatement preparedStatement = connection.prepareStatement("""
             UPDATE Restaurant

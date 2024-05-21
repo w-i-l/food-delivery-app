@@ -13,6 +13,7 @@ public class ProductRepository extends BaseRepository {
     private static Connection connection = null;
 
     public static void initConnection() {
+        printSuccess("ProductRepository: Connection initialized");
         connection = Connector.getConnection();
     }
 

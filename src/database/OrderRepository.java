@@ -18,6 +18,7 @@ public class OrderRepository extends BaseRepository {
     static private Connection connection = null;
 
     public static void initConnection() {
+        printSuccess("OrderRepository: Connection initialized");
         connection = Connector.getConnection();
     }
 

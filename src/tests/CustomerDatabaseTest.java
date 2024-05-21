@@ -5,6 +5,7 @@ import database.CustomerRepository;
 import models.address.Address;
 import models.customer.Customer;
 
+import java.util.List;
 import java.util.Set;
 
 public class CustomerDatabaseTest {
@@ -27,7 +28,7 @@ public class CustomerDatabaseTest {
 
     private static void getCustomers() {
         System.out.println("Getting customers...");
-        Set<Customer> customers = CustomerRepository.getCustomers();
+        List<Customer> customers = CustomerRepository.getAllCustomers();
     }
 
     private static void addCustomer() {

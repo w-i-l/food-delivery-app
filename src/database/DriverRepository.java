@@ -1,7 +1,9 @@
 package database;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import database.Connector;
@@ -13,12 +15,13 @@ public class DriverRepository extends BaseRepository {
     private static Connection connection = null;
 
     public static void initConnection() {
+        printSuccess("DriverRepository: Connection initialized");
         connection = Connector.getConnection();
     }
 
-    public static Set<Driver> getDrivers() {
+    public static List<Driver> getAllDrivers() {
 
-        Set<Driver> drivers = new HashSet<>();
+        List<Driver> drivers = new ArrayList<>();
 
         try {
             Statement statement = connection.createStatement();

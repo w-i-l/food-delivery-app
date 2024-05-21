@@ -4,6 +4,7 @@ import database.DriverRepository;
 import models.driver.Driver;
 import models.driver.DriverType;
 
+import java.util.List;
 import java.util.Set;
 
 public class DriverDatabaseTest {
@@ -22,9 +23,9 @@ public class DriverDatabaseTest {
         }
     }
 
-    private static Set<Driver> getDrivers() {
+    private static List<Driver> getDrivers() {
         System.out.println("Getting drivers...");
-        return DriverRepository.getDrivers();
+        return DriverRepository.getAllDrivers();
     }
 
     private static void addDriver() {

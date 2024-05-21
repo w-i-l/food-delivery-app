@@ -13,8 +13,11 @@ public class MenuService {
     private UserMenuService userMenuService;
     private AdminMenuService adminMenuService;
     private Scanner scanner;
-
     private final String ADMIN_PASSWORD = "admin";
+
+    static public MenuService getInstance() {
+        return instance;
+    }
 
     static public MenuService init(
             RestaurantService restaurantService,

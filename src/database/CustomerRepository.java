@@ -6,18 +6,21 @@ import models.customer.Customer;
 import models.customer.CustomerFactory;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class CustomerRepository extends BaseRepository {
     private static Connection connection = null;
 
     public static void initConnection() {
+        printSuccess("CustomerRepository: Connection initialized");
         connection = Connector.getConnection();
     }
 
-    public static Set<Customer> getCustomers() {
-        Set<Customer> customers = new HashSet<>();
+    public static List<Customer> getAllCustomers() {
+        List<Customer> customers = new ArrayList<>();
 
         try {
             Statement statement = connection.createStatement();
@@ -64,15 +67,18 @@ public class CustomerRepository extends BaseRepository {
 
     public static void updateCustomer(Customer customer) {
         try {
-            // Update customer information
-            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE Customer SET name = ? WHERE id = ?");
+            AddressRepository.addAddress(customer.getAddress());
+
+            PreparedStatement preparedStatement = connection.prepareStatement("""
+            UPDATE Customer 
+            SET name = ?, address_id = ? 
+            WHERE id = ?
+            """);
             preparedStatement.setString(1, customer.getName());
-            preparedStatement.setInt(2, customer.getId());
+            preparedStatement.setInt(2, customer.getAddress().getId());
+            preparedStatement.setInt(3, customer.getId());
 
             preparedStatement.executeUpdate();
-
-            // Update the address information
-            AddressRepository.updateAddress(customer.getAddress());
         } catch (SQLException e) {
             printException(e);
         }
