@@ -14,4 +14,14 @@ public enum OrderStatus {
             case DELIVERED -> "Delivered";
         };
     }
+
+    public static OrderStatus fromString(String status) {
+        return switch (status) {
+            case "Pending" -> PENDING;
+            case "Accepted" -> ACCEPTED;
+            case "Rejected" -> REJECTED;
+            case "Delivered" -> DELIVERED;
+            default -> null;
+        };
+    }
 }

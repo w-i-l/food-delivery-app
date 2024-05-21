@@ -174,4 +174,34 @@ public class RestaurantRepository {
         }
     }
 
+    public static Restaurant getRestaurantById(Integer id) {
+        Restaurant restaurant = null;
+
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("""
+            SELECT r.id, r.name, a.id, a.name, a.latitude, a.longitude
+            FROM Restaurant r, Address a
+            WHERE r.id = ? AND r.address_id = a.id
+            """);
+            preparedStatement.setInt(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                String name = resultSet.getString("name");
+                Address address = new Address(
+                        resultSet.getInt("a.id"),
+                        resultSet.getString("a.name"),
+                        resultSet.getDouble("a.latitude"),
+                        resultSet.getDouble("a.longitude")
+                );
+                List<ProductInterface> products = ProductRepository.getProductsForRestaurant(id);
+
+                restaurant = RestaurantFactory.createRestaurant(id, name, address, products);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return restaurant;
+    }
 }

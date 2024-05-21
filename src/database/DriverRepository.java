@@ -50,6 +50,8 @@ public class DriverRepository {
             preparedStatement.setInt(4, driver.getRating());
 
             preparedStatement.executeUpdate();
+        } catch (SQLIntegrityConstraintViolationException e) {
+          System.out.println("Driver already exists");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -78,5 +80,28 @@ public class DriverRepository {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public static Driver getDriverById(Integer id) {
+        Driver driver = null;
+
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM Driver WHERE id = ?");
+            preparedStatement.setInt(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                String name = resultSet.getString("name");
+                String type = resultSet.getString("type");
+                DriverType driverType = DriverType.fromString(type);
+                Integer rating = resultSet.getInt("rating");
+
+                driver = DriverFactory.createDriver(id, name, driverType, rating);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return driver;
     }
 }

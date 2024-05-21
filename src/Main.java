@@ -1,10 +1,7 @@
 import database.Connector;
 import services.*;
 import services.menu.MenuService;
-import tests.CustomerDatabaseTest;
-import tests.DriverDatabaseTest;
-import tests.ProductDatabaseTest;
-import tests.RestaurantDatabaseTest;
+import tests.*;
 
 import java.util.*;
 
@@ -25,12 +22,13 @@ public class Main {
                 scanner
         );
         menuService.initMenuItems();
-//        menuService.mainLoop();
+        menuService.mainLoop();
         Connector.init();
 //        DriverDatabaseTest.test();
 //        CustomerDatabaseTest.test();
 //        ProductDatabaseTest.test();
-        RestaurantDatabaseTest.test();
+//        RestaurantDatabaseTest.test();
+//        OrderDatabaseTest.test();
         Connector.closeConnection(false);
     }
 }

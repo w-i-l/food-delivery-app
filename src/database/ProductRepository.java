@@ -446,4 +446,73 @@ public class ProductRepository {
             e.printStackTrace();
         }
     }
+
+    public static ProductInterface getProductById(Integer id) {
+        ProductInterface product = null;
+
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("""
+            SELECT  p.id, p.name, p.price, p.description, p.type, p.available_until, p.discount
+            FROM Product p
+            WHERE p.id = ?
+            """);
+            preparedStatement.setInt(1, id);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                String name = resultSet.getString("name");
+                Double price = resultSet.getDouble("price");
+                String type = resultSet.getString("type");
+
+                switch (type) {
+                    case "ITEM":
+                        product = ProductFactory.createProductItem(id, name, price);
+                        break;
+                    case "SPECIAL":
+                        Date availableUntil = resultSet.getDate("available_until");
+                        product = ProductFactory.createSpecialProduct(id, name, price, availableUntil);
+                        break;
+                    case "MENU":
+                        String description = resultSet.getString("description");
+                        Double discount = resultSet.getDouble("discount");
+                        List<ProductItem> menuProducts = new ArrayList<>();
+
+                        PreparedStatement menuProductsStatement = connection.prepareStatement("""
+                        SELECT  p.id, p.name, p.price, p.description, p.type, p.available_until
+                        FROM Product p, MenuItems mp
+                        WHERE p.id = mp.product_item_id AND mp.menu_id = ?
+                        """);
+                        menuProductsStatement.setInt(1, id);
+                        ResultSet menuProductsResultSet = menuProductsStatement.executeQuery();
+
+                        while (menuProductsResultSet.next()) {
+                            Integer menuProductId = menuProductsResultSet.getInt("id");
+                            String menuProductName = menuProductsResultSet.getString("name");
+                            Double menuProductPrice = menuProductsResultSet.getDouble("price");
+                            String menuProductType = menuProductsResultSet.getString("type");
+
+                            switch (menuProductType) {
+                                case "ITEM":
+                                    ProductItem menuProduct = ProductFactory.createProductItem(menuProductId, menuProductName, menuProductPrice);
+                                    menuProducts.add(menuProduct);
+                                    break;
+                                case "SPECIAL":
+                                    Date menuProductAvailableUntil = menuProductsResultSet.getDate("available_until");
+                                    ProductItem menuSpecialProduct = ProductFactory.createSpecialProduct(menuProductId, menuProductName, menuProductPrice, menuProductAvailableUntil);
+                                    menuProducts.add(menuSpecialProduct);
+                                    break;
+                            }
+                        }
+
+                        product = ProductFactory.createMenu(id, name, description, menuProducts, discount);
+                        break;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return product;
+    }
 }

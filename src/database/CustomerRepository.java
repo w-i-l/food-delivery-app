@@ -47,23 +47,29 @@ public class CustomerRepository {
 
     public static void addCustomer(Customer customer) {
         try {
-            // Insert the address first if it doesn't exist
-            PreparedStatement preparedStatement = connection.prepareStatement(
-                    "INSERT INTO Address (id, name, latitude, longitude) VALUES (?, ?, ?, ?)");
-            preparedStatement.setInt(1, customer.getAddress().getId());
-            preparedStatement.setString(2, customer.getAddress().getName());
-            preparedStatement.setDouble(3, customer.getAddress().getLatitude());
-            preparedStatement.setDouble(4, customer.getAddress().getLongitude());
+            try {
+                // Insert the address first if it doesn't exist
+                PreparedStatement preparedStatement = connection.prepareStatement(
+                        "INSERT INTO Address (id, name, latitude, longitude) VALUES (?, ?, ?, ?)");
+                preparedStatement.setInt(1, customer.getAddress().getId());
+                preparedStatement.setString(2, customer.getAddress().getName());
+                preparedStatement.setDouble(3, customer.getAddress().getLatitude());
+                preparedStatement.setDouble(4, customer.getAddress().getLongitude());
 
-            preparedStatement.executeUpdate();
+                preparedStatement.executeUpdate();
+            } catch (SQLIntegrityConstraintViolationException e) {
+                System.out.println("Address already exists");
+            }
 
             // Insert the customer with the generated address ID
-            preparedStatement = connection.prepareStatement("INSERT INTO Customer (id, name, address_id) VALUES (?, ?, ?)");
+            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO Customer (id, name, address_id) VALUES (?, ?, ?)");
             preparedStatement.setInt(1, customer.getId());
             preparedStatement.setString(2, customer.getName());
             preparedStatement.setInt(3, customer.getAddress().getId());
 
             preparedStatement.executeUpdate();
+        } catch (SQLIntegrityConstraintViolationException e) {
+            System.out.println("Customer already exists");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -107,5 +113,33 @@ public class CustomerRepository {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public static Customer getCustomerById(Integer id) {
+        Customer customer = null;
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("""
+                SELECT c.id id, c.name name, a.name address_name, a.latitude latitude, a.longitude longitude
+                FROM Customer c
+                JOIN Address a ON c.address_id = a.id
+                WHERE c.id = ?
+            """);
+            preparedStatement.setInt(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                String name = resultSet.getString("name");
+                String addressName = resultSet.getString("address_name");
+                Double latitude = resultSet.getDouble("latitude");
+                Double longitude = resultSet.getDouble("longitude");
+
+                Address address = AddressFactory.createAddress(id, addressName, latitude, longitude);
+                customer = CustomerFactory.createCustomer(id, name, address);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return customer;
     }
 }

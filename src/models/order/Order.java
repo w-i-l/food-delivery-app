@@ -25,7 +25,7 @@ public class Order {
             Customer customer,
             Restaurant restaurant,
             Driver driver,
-            Double price,
+            OrderStatus status,
             Dictionary<ProductInterface, Integer> products
     ) {
         this.id = id;
@@ -33,7 +33,7 @@ public class Order {
         this.restaurant = restaurant;
         this.driver = driver;
         this.price = 0.0;
-        this.status = OrderStatus.PENDING;
+        this.status = status;
         this.products = products;
 
         Enumeration<ProductInterface> productEnumeration = products.keys();

@@ -13,10 +13,15 @@ import java.util.Hashtable;
 import java.util.Scanner;
 
 public class OrderFactory {
-    static private Integer orderId = 0;
+    static private Integer ID = 0;
 
-    public static Order createOrder(Customer customer, Restaurant restaurant, Driver driver, Double price, Dictionary<ProductInterface, Integer> products) {
-        return new Order(orderId++, customer, restaurant, driver, price, products);
+    public static Order createOrder(Customer customer, Restaurant restaurant, Driver driver,  OrderStatus status, Dictionary<ProductInterface, Integer> products) {
+        return new Order(ID++, customer, restaurant, driver, status, products);
+    }
+
+    public static Order createOrder(Integer id, Customer customer, Restaurant restaurant, Driver driver, OrderStatus status, Dictionary<ProductInterface, Integer> products) {
+        ID = Math.max(ID, id + 1);
+        return new Order(id, customer, restaurant, driver, status, products);
     }
 
     public static Order createOrder(Scanner scanner) {
@@ -37,6 +42,9 @@ public class OrderFactory {
 
         System.out.print("Enter price: ");
         price = scanner.nextDouble();
+
+        System.out.println("Enter order status");
+        OrderStatus status = OrderStatus.fromString(scanner.next());
 
         System.out.print("Enter number of products: ");
         int productCount = scanner.nextInt();
@@ -70,6 +78,6 @@ public class OrderFactory {
             }
         }
 
-        return new Order(orderId++, customer, restaurant, driver, price, products);
+        return new Order(ID++, customer, restaurant, driver, status, products);
     }
 }

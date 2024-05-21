@@ -180,7 +180,7 @@ public class UserMenuService {
 
         Double discount = Math.random() * 0.5;
         price = price - price * discount;
-        Order order = OrderFactory.createOrder(customer, restaurant, driver, price, products);
+        Order order = OrderFactory.createOrder(customer, restaurant, driver, OrderStatus.PENDING, products);
         orderService.addOrder(order);
     }
 
