@@ -19,10 +19,8 @@ public class ProductDatabaseTest {
         getProductsForOrder();
         addProduct();
         updateProduct();
-        addProductToRestaurant();
         addProductToOrder();
         deleteProduct();
-        deleteProductFromRestaurant();
         deleteProductFromOrder();
         System.out.println("[Product Test PASSED] All tests passed successfully\n");
     }
@@ -81,24 +79,10 @@ public class ProductDatabaseTest {
         ProductRepository.updateProduct(menu);
     }
 
-    private static void addProductToRestaurant() {
-        System.out.println("Adding a product to restaurant...");
-        Restaurant restaurant = new Restaurant(1, "Mocked Restaurant", null, null);
-        ProductInterface product = new ProductItem(14, "Mocked Product", 5.0);
-        ProductRepository.addProductToRestaurant(product, restaurant);
-    }
-
-    private static void deleteProductFromRestaurant() {
-        System.out.println("Deleting a product from restaurant...");
-        Restaurant restaurant = new Restaurant(1, "Mocked Restaurant", null, null);
-        ProductInterface product = new ProductItem(14, "Mocked Product", 5.0);
-        ProductRepository.deleteProductFromRestaurant(product, restaurant);
-    }
-
     private static void getProductsForRestaurant() {
         System.out.println("Getting products for restaurant...");
         Restaurant restaurant = new Restaurant(1, "Mocked Restaurant", null, null);
-        List<ProductInterface> products = ProductRepository.getProductsForRestaurant(restaurant);
+        List<ProductInterface> products = ProductRepository.getProductsForRestaurant(restaurant.getId());
         for (ProductInterface product : products) {
             product.showProductDetails();
         }

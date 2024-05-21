@@ -17,6 +17,11 @@ public class RestaurantFactory {
         return new Restaurant(ID++, name, address, products);
     }
 
+    public static Restaurant createRestaurant(Integer id, String name, Address address, List<ProductInterface> products) {
+        ID = Math.max(ID, id + 1);
+        return new Restaurant(id, name, address, products);
+    }
+
     public static Restaurant createRestaurant(Scanner scanner) {
         String name;
         Address address;

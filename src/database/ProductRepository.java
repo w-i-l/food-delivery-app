@@ -264,7 +264,7 @@ public class ProductRepository {
         }
     }
 
-    public static List<ProductInterface> getProductsForRestaurant(Restaurant restaurant) {
+    public static List<ProductInterface> getProductsForRestaurant(Integer resturantId) {
         List<ProductInterface> products = new ArrayList<>();
 
         try {
@@ -273,7 +273,7 @@ public class ProductRepository {
             FROM Product p, RestaurantProducts rp
             WHERE p.id = rp.product_id AND rp.restaurant_id = ?
             """);
-            preparedStatement.setInt(1, restaurant.getId());
+            preparedStatement.setInt(1, resturantId);
 
             ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -299,8 +299,7 @@ public class ProductRepository {
                         List<ProductItem> menuProducts = new ArrayList<>();
 
                         PreparedStatement menuProductsStatement = connection.prepareStatement("""
-                        
-                                SELECT  p.id, p.name, p.price, p.description, p.type, p.available_until
+                        SELECT  p.id, p.name, p.price, p.description, p.type, p.available_until
                         FROM Product p, MenuItems mp
                         WHERE p.id = mp.product_item_id AND mp.menu_id = ?
                         """);
@@ -337,36 +336,6 @@ public class ProductRepository {
         }
 
         return products;
-    }
-
-    public static void addProductToRestaurant(ProductInterface product, Restaurant restaurant) {
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement("""
-            INSERT INTO RestaurantProducts (restaurant_id, product_id)
-            VALUES (?, ?)
-            """);
-            preparedStatement.setInt(1, restaurant.getId());
-            preparedStatement.setInt(2, product.getId());
-
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static void deleteProductFromRestaurant(ProductInterface product, Restaurant restaurant) {
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement("""
-            DELETE FROM RestaurantProducts
-            WHERE restaurant_id = ? AND product_id = ?
-            """);
-            preparedStatement.setInt(1, restaurant.getId());
-            preparedStatement.setInt(2, product.getId());
-
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
 
     public static List<ProductInterface> getProductsForOrder(Order order) {
