@@ -22,10 +22,11 @@ public class Main {
                 scanner
         );
         menuService.initMenuItems();
-        menuService.mainLoop();
+//        menuService.mainLoop();
         Connector.init();
-//        DriverDatabaseTest.test();
+//        AddressDatabaseTest.test();
 //        CustomerDatabaseTest.test();
+//        DriverDatabaseTest.test();
 //        ProductDatabaseTest.test();
 //        RestaurantDatabaseTest.test();
 //        OrderDatabaseTest.test();

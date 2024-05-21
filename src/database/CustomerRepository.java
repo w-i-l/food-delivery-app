@@ -22,19 +22,15 @@ public class CustomerRepository {
         try {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery("""
-                SELECT c.id id, c.name name, a.name address_name, a.latitude latitude, a.longitude longitude
+                SELECT id id, name, address_id
                 FROM Customer c
-                JOIN Address a ON c.address_id = a.id
             """);
 
             while (resultSet.next()) {
                 Integer id = resultSet.getInt("id");
                 String name = resultSet.getString("name");
-                String addressName = resultSet.getString("address_name");
-                Double latitude = resultSet.getDouble("latitude");
-                Double longitude = resultSet.getDouble("longitude");
-
-                Address address = AddressFactory.createAddress(id, addressName, latitude, longitude);
+                Integer addressId = resultSet.getInt("address_id");
+                Address address = AddressRepository.getAddressById(addressId);
                 Customer customer = CustomerFactory.createCustomer(id, name, address);
                 customers.add(customer);
             }
@@ -47,19 +43,7 @@ public class CustomerRepository {
 
     public static void addCustomer(Customer customer) {
         try {
-            try {
-                // Insert the address first if it doesn't exist
-                PreparedStatement preparedStatement = connection.prepareStatement(
-                        "INSERT INTO Address (id, name, latitude, longitude) VALUES (?, ?, ?, ?)");
-                preparedStatement.setInt(1, customer.getAddress().getId());
-                preparedStatement.setString(2, customer.getAddress().getName());
-                preparedStatement.setDouble(3, customer.getAddress().getLatitude());
-                preparedStatement.setDouble(4, customer.getAddress().getLongitude());
-
-                preparedStatement.executeUpdate();
-            } catch (SQLIntegrityConstraintViolationException e) {
-                System.out.println("Address already exists");
-            }
+            AddressRepository.addAddress(customer.getAddress());
 
             // Insert the customer with the generated address ID
             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO Customer (id, name, address_id) VALUES (?, ?, ?)");
@@ -85,14 +69,7 @@ public class CustomerRepository {
             preparedStatement.executeUpdate();
 
             // Update the address information
-            preparedStatement = connection.prepareStatement(
-                    "UPDATE Address SET name = ?, latitude = ?, longitude = ? WHERE id = ?");
-            preparedStatement.setString(1, customer.getAddress().getName());
-            preparedStatement.setDouble(2, customer.getAddress().getLatitude());
-            preparedStatement.setDouble(3, customer.getAddress().getLongitude());
-            preparedStatement.setInt(4, customer.getAddress().getId());
-
-            preparedStatement.executeUpdate();
+            AddressRepository.updateAddress(customer.getAddress());
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -106,10 +83,7 @@ public class CustomerRepository {
             preparedStatement.executeUpdate();
 
             // Optionally, delete the address if no other customer is using it
-            preparedStatement = connection.prepareStatement(
-                    "DELETE FROM Address WHERE id = ?");
-            preparedStatement.setInt(1, customer.getAddress().getId());
-            preparedStatement.executeUpdate();
+            AddressRepository.deleteAddress(customer.getAddress().getId());
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -119,9 +93,8 @@ public class CustomerRepository {
         Customer customer = null;
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("""
-                SELECT c.id id, c.name name, a.name address_name, a.latitude latitude, a.longitude longitude
+                SELECT id, name, address_id
                 FROM Customer c
-                JOIN Address a ON c.address_id = a.id
                 WHERE c.id = ?
             """);
             preparedStatement.setInt(1, id);
@@ -129,11 +102,8 @@ public class CustomerRepository {
 
             if (resultSet.next()) {
                 String name = resultSet.getString("name");
-                String addressName = resultSet.getString("address_name");
-                Double latitude = resultSet.getDouble("latitude");
-                Double longitude = resultSet.getDouble("longitude");
-
-                Address address = AddressFactory.createAddress(id, addressName, latitude, longitude);
+                Integer addressId = resultSet.getInt("address_id");
+                Address address = AddressRepository.getAddressById(addressId);
                 customer = CustomerFactory.createCustomer(id, name, address);
             }
         } catch (SQLException e) {

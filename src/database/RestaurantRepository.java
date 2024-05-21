@@ -51,21 +51,7 @@ public class RestaurantRepository {
 
     public static void addRestaurant(Restaurant restaurant) {
         try {
-            try {
-                PreparedStatement preparedStatement = connection.prepareStatement("""
-                INSERT INTO Address (id, name, latitude, longitude)
-                VALUES (?, ?, ?, ?)
-                """);
-                preparedStatement.setInt(1, restaurant.getAddress().getId());
-                preparedStatement.setString(2, restaurant.getAddress().getName());
-                preparedStatement.setDouble(3, restaurant.getAddress().getLatitude());
-                preparedStatement.setDouble(4, restaurant.getAddress().getLongitude());
-
-                preparedStatement.executeUpdate();
-            } catch (SQLIntegrityConstraintViolationException e) {
-                // Address already exists
-                System.out.println("Address already exists");
-            }
+            AddressRepository.addAddress(restaurant.getAddress());
 
             PreparedStatement preparedStatement = connection.prepareStatement("""
             INSERT INTO Restaurant (id, name, address_id)
@@ -104,22 +90,7 @@ public class RestaurantRepository {
 
     public static void updateRestaurant(Restaurant restaurant) {
         try {
-            try {
-                PreparedStatement preparedStatement = connection.prepareStatement("""
-            
-                INSERT INTO Address (id, name, latitude, longitude)
-                VALUES (?, ?, ?, ?)
-                """);
-                preparedStatement.setInt(1, restaurant.getAddress().getId());
-                preparedStatement.setString(2, restaurant.getAddress().getName());
-                preparedStatement.setDouble(3, restaurant.getAddress().getLatitude());
-                preparedStatement.setDouble(4, restaurant.getAddress().getLongitude());
-
-                preparedStatement.executeUpdate();
-            } catch (SQLIntegrityConstraintViolationException e) {
-                // Address already exists
-                System.out.println("Address already exists");
-            }
+            AddressRepository.updateAddress(restaurant.getAddress());
 
             PreparedStatement preparedStatement = connection.prepareStatement("""
             UPDATE Restaurant
@@ -179,21 +150,17 @@ public class RestaurantRepository {
 
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("""
-            SELECT r.id, r.name, a.id, a.name, a.latitude, a.longitude
-            FROM Restaurant r, Address a
-            WHERE r.id = ? AND r.address_id = a.id
+            SELECT id, name, address_id
+            FROM Restaurant
+            WHERE id = ?
             """);
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
                 String name = resultSet.getString("name");
-                Address address = new Address(
-                        resultSet.getInt("a.id"),
-                        resultSet.getString("a.name"),
-                        resultSet.getDouble("a.latitude"),
-                        resultSet.getDouble("a.longitude")
-                );
+                Integer addressId = resultSet.getInt("address_id");
+                Address address = AddressRepository.getAddressById(addressId);
                 List<ProductInterface> products = ProductRepository.getProductsForRestaurant(id);
 
                 restaurant = RestaurantFactory.createRestaurant(id, name, address, products);

@@ -1,5 +1,6 @@
 package tests;
 
+import database.AddressRepository;
 import database.CustomerRepository;
 import models.address.Address;
 import models.customer.Customer;
@@ -9,6 +10,7 @@ import java.util.Set;
 public class CustomerDatabaseTest {
 
     public static void test() {
+        AddressRepository.initConnection();
         CustomerRepository.initConnection();
 
         try {
