@@ -2,6 +2,8 @@ package models.customer;
 
 import models.address.Address;
 
+import java.util.Objects;
+
 public class Customer {
     private final Integer id;
     private String name;
@@ -40,5 +42,24 @@ public class Customer {
     public void updateCustomer(Customer customer) {
         this.name = customer.getName();
         this.address = customer.getAddress();
+    }
+
+    @Override
+    public int hashCode() {
+        return this.id;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+
+        if (obj == null || this.getClass() != obj.getClass()) {
+            return false;
+        }
+
+        Customer customer = (Customer) obj;
+        return Objects.equals(this.id, customer.getId());
     }
 }

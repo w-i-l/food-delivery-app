@@ -9,18 +9,19 @@ import models.restaurant.Restaurant;
 import models.restaurant.RestaurantFactory;
 import util.ScannerHelper;
 
-import java.util.Dictionary;
-import java.util.Hashtable;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 public class OrderFactory {
     static private Integer ID = 0;
 
-    public static Order createOrder(Customer customer, Restaurant restaurant, Driver driver,  OrderStatus status, Dictionary<ProductInterface, Integer> products) {
+    public static Order createOrder(Customer customer, Restaurant restaurant, Driver driver,  OrderStatus status, Map<ProductInterface, Integer> products) {
         return new Order(ID++, customer, restaurant, driver, status, products);
     }
 
-    public static Order createOrder(Integer id, Customer customer, Restaurant restaurant, Driver driver, OrderStatus status, Dictionary<ProductInterface, Integer> products) {
+    public static Order createOrder(Integer id, Customer customer, Restaurant restaurant, Driver driver, OrderStatus status, Map<ProductInterface, Integer> products) {
         ID = Math.max(ID, id + 1);
         return new Order(id, customer, restaurant, driver, status, products);
     }
@@ -30,7 +31,7 @@ public class OrderFactory {
         Restaurant restaurant;
         Driver driver;
         Double price;
-        Dictionary<ProductInterface, Integer> products = new Hashtable<ProductInterface, Integer>();
+        Map<ProductInterface, Integer> products = new HashMap<>();
 
         System.out.println("Enter customer details");
         customer = CustomerFactory.createCustomer(scanner);

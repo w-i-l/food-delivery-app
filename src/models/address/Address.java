@@ -44,4 +44,23 @@ public final class Address {
 
         return Math.sqrt(Math.pow(latitudinalDifference, 2) + Math.pow(longitudinalDifference, 2));
     }
+
+    @Override
+    public int hashCode() {
+        return this.id;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+
+        if (obj == null || this.getClass() != obj.getClass()) {
+            return false;
+        }
+
+        Address address = (Address) obj;
+        return this.id.equals(address.getId());
+    }
 }

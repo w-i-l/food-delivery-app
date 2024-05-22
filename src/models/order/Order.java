@@ -8,7 +8,8 @@ import models.product.ProductItem;
 import models.product.SpecialProduct;
 import models.restaurant.Restaurant;
 
-import java.util.Dictionary;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.Enumeration;
 
 public class Order {
@@ -18,7 +19,7 @@ public class Order {
     private Driver driver;
     private Double price;
     private OrderStatus status;
-    private Dictionary<ProductInterface, Integer> products;
+    private Map<ProductInterface, Integer> products;
 
     public Order(
             Integer id,
@@ -26,7 +27,7 @@ public class Order {
             Restaurant restaurant,
             Driver driver,
             OrderStatus status,
-            Dictionary<ProductInterface, Integer> products
+            Map<ProductInterface, Integer> products
     ) {
         this.id = id;
         this.customer = customer;
@@ -36,9 +37,9 @@ public class Order {
         this.status = status;
         this.products = products;
 
-        Enumeration<ProductInterface> productEnumeration = products.keys();
-        while (productEnumeration.hasMoreElements()) {
-            ProductInterface product = productEnumeration.nextElement();
+        Iterator<ProductInterface> productEnumeration = products.keySet().iterator();
+        while (productEnumeration.hasNext()) {
+            ProductInterface product = productEnumeration.next();
             if (product instanceof ProductItem) {
                 this.price += ((ProductItem) product).getPrice() * products.get(product);
             } else if (product instanceof Menu) {
@@ -73,7 +74,7 @@ public class Order {
         return this.status;
     }
 
-    public Dictionary<ProductInterface, Integer> getProducts() {
+    public Map<ProductInterface, Integer> getProducts() {
         return this.products;
     }
 
@@ -97,7 +98,7 @@ public class Order {
         this.status = status;
     }
 
-    public void setProducts(Dictionary<ProductInterface, Integer> products) {
+    public void setProducts(Map<ProductInterface, Integer> products) {
         this.products = products;
     }
 
@@ -109,5 +110,24 @@ public class Order {
 
     public void showOrderDetails() {
         System.out.printf("Order #%d - %.2f\n", this.id, this.price);
+    }
+
+    @Override
+    public int hashCode() {
+        return this.id;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+
+        if (obj == null || this.getClass() != obj.getClass()) {
+            return false;
+        }
+
+        Order order = (Order) obj;
+        return this.id.equals(order.getId());
     }
 }

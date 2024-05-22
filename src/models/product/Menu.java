@@ -67,4 +67,23 @@ public class Menu implements ProductInterface {
     public void showProductDetails() {
         System.out.printf("\"%s\" - %.2f (%d items)\n", this.name, this.discountedPrice, this.items.size());
     }
+
+    @Override
+    public int hashCode() {
+        return this.id;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+
+        if (obj == null || this.getClass() != obj.getClass()) {
+            return false;
+        }
+
+        Menu menu = (Menu) obj;
+        return this.id.equals(menu.getId());
+    }
 }

@@ -87,7 +87,7 @@ public class ProductDatabaseTest {
 
     private static void getProductsForOrder() {
         System.out.println("Getting products for order...");
-        Order order = new Order(1, null, null, null, OrderStatus.PENDING, new java.util.Hashtable<>());
+        Order order = new Order(1, null, null, null, OrderStatus.PENDING, new java.util.HashMap<>());
         List<ProductInterface> products = ProductRepository.getProductsForOrder(order.getId());
     }
 }

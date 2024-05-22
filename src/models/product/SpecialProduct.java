@@ -17,4 +17,18 @@ public class SpecialProduct extends ProductItem {
     public void setAvailableUntil(Date availableUntil) {
         this.availableUntil = availableUntil;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+
+        if (obj == null || this.getClass() != obj.getClass()) {
+            return false;
+        }
+
+        SpecialProduct product = (SpecialProduct) obj;
+        return this.id.equals(product.getId());
+    }
 }

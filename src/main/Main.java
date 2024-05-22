@@ -1,3 +1,5 @@
+package main;
+
 import database.*;
 import models.address.AddressFactory;
 import models.customer.Customer;

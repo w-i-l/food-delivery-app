@@ -56,7 +56,7 @@ public class OrderRepository extends BaseRepository {
                 preparedStatement1.setInt(1, id);
                 ResultSet resultSet1 = preparedStatement1.executeQuery();
 
-                Dictionary<ProductInterface, Integer> products = new Hashtable<>();
+                Map<ProductInterface, Integer> products = new HashMap<>();
                 while (resultSet1.next()) {
                     Integer productId = resultSet1.getInt("product_id");
                     Integer quantity = resultSet1.getInt("quantity");
@@ -114,9 +114,9 @@ public class OrderRepository extends BaseRepository {
         }
 
         try {
-            Enumeration<ProductInterface> productEnumeration = order.getProducts().keys();
-            while (productEnumeration.hasMoreElements()) {
-                ProductInterface product = productEnumeration.nextElement();
+            Iterator<ProductInterface> productIterator = order.getProducts().keySet().iterator();
+            while (productIterator.hasNext()) {
+                ProductInterface product = productIterator.next();
                 Integer quantity = order.getProducts().get(product);
 
                 PreparedStatement preparedStatement1 = connection.prepareStatement("""
@@ -214,7 +214,7 @@ public class OrderRepository extends BaseRepository {
                 preparedStatement1.setInt(1, id);
                 ResultSet resultSet1 = preparedStatement1.executeQuery();
 
-                Dictionary<ProductInterface, Integer> products = new Hashtable<>();
+                Map<ProductInterface, Integer> products = new HashMap<>();
                 while (resultSet1.next()) {
                     Integer productId = resultSet1.getInt("product_id");
                     Integer quantity = resultSet1.getInt("quantity");

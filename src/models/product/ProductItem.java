@@ -35,4 +35,23 @@ public class ProductItem implements ProductInterface {
     public void showProductDetails() {
         System.out.printf("\"%s\" - %.2f\n", this.name, this.price);
     }
+
+    @Override
+    public int hashCode() {
+        return this.id;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+
+        if (obj == null || this.getClass() != obj.getClass()) {
+            return false;
+        }
+
+        ProductItem product = (ProductItem) obj;
+        return this.id.equals(product.getId());
+    }
 }

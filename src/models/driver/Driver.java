@@ -62,4 +62,23 @@ public class Driver {
         this.type = driver.getType();
         this.rating = driver.getRating();
     }
+
+    @Override
+    public int hashCode() {
+        return this.id;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+
+        if (obj == null || this.getClass() != obj.getClass()) {
+            return false;
+        }
+
+        Driver driver = (Driver) obj;
+        return this.id.equals(driver.getId());
+    }
 }

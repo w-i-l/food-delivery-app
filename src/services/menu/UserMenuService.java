@@ -19,7 +19,7 @@ public class UserMenuService {
 
     static UserMenuService instance = null;
 
-    private Dictionary<Integer, String> menuItems = new Hashtable<Integer, String>();
+    private Map<Integer, String> menuItems = new HashMap<Integer, String>();
     private RestaurantService restaurantService;
     private OrderService orderService;
     private CustomerService customerService;
@@ -74,7 +74,7 @@ public class UserMenuService {
         System.out.println("User menu:");
 
         ArrayList<Integer> keys = new ArrayList<Integer>();
-        Iterator<Integer> keyIterator = menuItems.keys().asIterator();
+        Iterator<Integer> keyIterator = menuItems.keySet().iterator();
         while (keyIterator.hasNext()) {
             keys.add(keyIterator.next());
         }
@@ -143,7 +143,7 @@ public class UserMenuService {
     private void createOrder() {
 
         Double price = 0.0;
-        Dictionary<ProductInterface, Integer> products = new Hashtable<ProductInterface, Integer>();
+        Map<ProductInterface, Integer> products = new HashMap<ProductInterface, Integer>();
 
         listAllRestaurants();
         Integer restaurantId = ScannerHelper.nextInt("Choose a restaurant: \n");

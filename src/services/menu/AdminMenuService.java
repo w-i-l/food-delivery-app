@@ -16,14 +16,15 @@ import services.OrderService;
 import services.RestaurantService;
 import util.ScannerHelper;
 
-import java.util.Dictionary;
-import java.util.Hashtable;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.HashMap;
 import java.util.Scanner;
 
 public class AdminMenuService {
     static AdminMenuService instance = null;
 
-    private Dictionary<Integer, String> menuItems = new Hashtable<Integer, String>();
+    private Map<Integer, String> menuItems = new HashMap<>();
     private RestaurantService restaurantService;
     private OrderService orderService;
     private CustomerService customerService;

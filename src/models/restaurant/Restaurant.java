@@ -68,4 +68,18 @@ public final class Restaurant {
     public int hashCode() {
         return this.id;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+
+        if (obj == null || this.getClass() != obj.getClass()) {
+            return false;
+        }
+
+        Restaurant restaurant = (Restaurant) obj;
+        return this.id.equals(restaurant.getId());
+    }
 }
