@@ -1,5 +1,5 @@
 <h1>Food delivery app</h1>
-<h2>A console line interface JBDC project</h2>
+<h2>A console line interface JDBC project</h2> 
 <img src='https://github.com/w-i-l/avl-tree/assets/65015373/5bc87bc6-41e8-4203-9d68-7e0e4191d49f'>
 
 
@@ -9,7 +9,7 @@
 <p>This app copy the behavior from Bolt Food allowing user to view restaurants, their products and place an order.</p>
 <p>The interaction is made via console, providing two custom menus, one for <code>admin</code> and one for regular <code>user</code>.</p>
 
-<p>For a brief JBDC tutorial, but also minimal setup of the project i recommend wathcing <a href="https://www.youtube.com/watch?v=KgXq2UBNEhA&ab_channel=MarcoCodes">this</a>.</p>
+<p>For a brief JDBC tutorial, but also minimal setup of the project i recommend wathcing <a href="https://www.youtube.com/watch?v=KgXq2UBNEhA&ab_channel=MarcoCodes">this</a>.</p>
 
 
 <br>
